@@ -5,7 +5,7 @@ PKG_NAME="miniupnpc"
 PKG_VERSION="2.2.5"
 PKG_LICENSE="BSD"
 PKG_SITE="http://miniupnp.free.fr"
-PKG_URL="http://miniupnp.free.fr/files/${PKG_NAME}-${PKG_VERSION}.tar.gz"
+PKG_URL="http://sources.buildroot.net/libminiupnpc/${PKG_NAME}-${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
 PKG_LONGDESC="The MiniUPnP project offers software which supports the UPnP Internet Gateway Device (IGD) specifications"
 
