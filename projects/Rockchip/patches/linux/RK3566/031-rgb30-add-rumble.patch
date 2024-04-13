@@ -1,0 +1,176 @@
+diff -rupN --no-dereference linux.org/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtsi linux/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtsi
+--- linux.org/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtsi	2024-04-13 21:24:55.347051697 +0900
++++ linux/arch/arm64/boot/dts/rockchip/rk3566-powkiddy-rk2023.dtsi	2024-04-13 22:09:46.579159680 +0900
+@@ -51,6 +51,9 @@
+ 
+ 		status = "okay";
+ 
++		/* rumble */
++		pwms = <&pwm5 0 10000 0>;
++
+ 		/* gpio pincontrol setup */
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&btn_pins_ctrl>;
+@@ -849,3 +852,7 @@
+ 		remote-endpoint = <&dsi0_in_vp1>;
+ 	};
+ };
++
++&pwm5 {
++	status = "okay";
++};
+diff -rupN --no-dereference linux.org/drivers/input/joystick/Kconfig linux/drivers/input/joystick/Kconfig
+--- linux.org/drivers/input/joystick/Kconfig	2024-04-13 21:24:55.355051694 +0900
++++ linux/drivers/input/joystick/Kconfig	2024-04-13 19:28:10.786299244 +0900
+@@ -395,6 +395,7 @@ config JOYSTICK_FSIA6B
+ 
+ config JOYSTICK_SINGLEADCJOY
+ 	tristate "Single SARADC dual-joystick gamepad driver"
++	select INPUT_POLLDEV	
+ 	help
+ 	  The 1-in 4-out SARADC joypad driver.
+ 
+diff -rupN --no-dereference linux.org/drivers/input/joystick/singleadcjoy.c linux/drivers/input/joystick/singleadcjoy.c
+--- linux.org/drivers/input/joystick/singleadcjoy.c	2024-04-13 21:24:55.351051696 +0900
++++ linux/drivers/input/joystick/singleadcjoy.c	2024-04-13 19:35:26.447917758 +0900
+@@ -25,6 +25,7 @@
+ #include <linux/of_gpio.h>
+ #include <linux/delay.h>
+ 
++#include <linux/pwm.h> // add by trngaje
+ /*----------------------------------------------------------------------------*/
+ #define DRV_NAME "retrogame_joypad"
+ #define __LEFT_JOYSTICK_INVERT__
+@@ -69,6 +70,8 @@ struct bt_gpio {
+ 	int num;
+ 	/* report type */
+ 	int report_type;
++	/* report value by trngaje */
++	int report_value;
+ 	/* report linux code */
+ 	int linux_code;
+ 	/* prev button value */
+@@ -78,6 +81,10 @@ struct bt_gpio {
+ };
+ 
+ struct joypad {
++	/* add by trngaje */
++	struct input_dev	*input;	/* input device interface */ 
++	struct pwm_device	*pwm;	/* pwm device interface */
++	
+ 	struct device *dev;
+ 	int poll_interval;
+ 
+@@ -492,10 +499,21 @@ static void joypad_gpio_check(struct inp
+ 		}
+ 		value = gpio_get_value(gpio->num);
+ 		if (value != gpio->old_value) {
+-			input_event(poll_dev->input,
+-				gpio->report_type,
+-				gpio->linux_code,
+-				(value == gpio->active_level) ? 1 : 0);
++			if (gpio->report_type != EV_ABS)
++			{
++				input_event(poll_dev->input,
++					gpio->report_type,
++					gpio->linux_code,
++					(value == gpio->active_level) ? 1 : 0);
++				
++			}
++			else	// add by trngaje
++			{
++				input_event(poll_dev->input,
++					gpio->report_type,
++					gpio->linux_code,
++					(value == gpio->active_level) ? gpio->report_value : 0);				
++			}
+ 			gpio->old_value = value;
+ 		}
+ 	}
+@@ -826,6 +844,10 @@ static int joypad_gpio_setup(struct devi
+ 		if (of_property_read_u32(pp, "linux,input-type",
+ 				&gpio->report_type))
+ 			gpio->report_type = EV_KEY;
++			
++		// added by trngaje
++		of_property_read_u32(pp, "linux,input-value",
++                                &gpio->report_value);
+ 	}
+ 	if (nbtn == 0)
+ 		return -EINVAL;
+@@ -858,6 +880,40 @@ void rk_send_key_f_key_down(void)
+ }
+ EXPORT_SYMBOL(rk_send_key_f_key_down);
+ 
++// add for rumble by trnngaje
++static int joypad_play_effect(struct input_dev *dev, void *data, struct ff_effect *effect)
++{
++	struct joypad *joypad = (struct joypad *)data;
++	
++	__u16 strong;
++	__u16 weak;
++
++	int period;
++	struct pwm_state state;
++	struct pwm_args pargs;
++	
++	if (effect->type != FF_RUMBLE)
++		return 0;
++
++	strong = effect->u.rumble.strong_magnitude;
++	weak = effect->u.rumble.weak_magnitude;
++
++	pwm_get_state(joypad->pwm, &state);
++	pwm_get_args(joypad->pwm, &pargs);
++	
++	period = pargs.period;
++	pwm_config(joypad->pwm,  period - (__u16)(strong * period / 0xffff), period);
++	pwm_enable(joypad->pwm);
++
++	return 1;
++}
++
++static int joypad_init_ff(struct joypad *joypad)
++{
++	input_set_capability(joypad->input, EV_FF, FF_RUMBLE);
++
++	return input_ff_create_memless(joypad->input, joypad, joypad_play_effect);
++}
+ 
+ static int joypad_input_setup(struct device *dev, struct joypad *joypad)
+ {
+@@ -881,7 +937,8 @@ static int joypad_input_setup(struct dev
+ 
+ 	input = poll_dev->input;
+ 	joypad_input_g=input;
+-
++	joypad->input=input; // add by trngaje
++	
+ 	device_property_read_string(dev, "joypad-name", &input->name);
+ 	input->phys = DRV_NAME"/input0";
+ 
+@@ -911,6 +968,24 @@ static int joypad_input_setup(struct dev
+ 			__func__, adc->tuning_p, adc->tuning_n);
+ 	}
+ 
++	// add for dpad hat by trngaje
++	for(nbtn = 0; nbtn < joypad->bt_gpio_count; nbtn++) {
++		struct bt_gpio *gpio = &joypad->gpios[nbtn];
++		if (gpio->report_type == EV_ABS && (gpio->linux_code == ABS_HAT0Y || gpio->linux_code == ABS_HAT0X)) {
++			input_set_abs_params(input, ABS_HAT0X, -1, 1, 0, 0);
++			input_set_abs_params(input, ABS_HAT0Y, -1, 1, 0, 0);		
++			break;
++		}
++	}
++	
++	// add for rumble by trngaje
++	joypad->pwm = devm_pwm_get(dev, NULL);
++	if (IS_ERR(joypad->pwm) && PTR_ERR(joypad->pwm) != -EPROBE_DEFER) {
++		dev_err(dev, "unable to request PWM for rumble\n");
++	}
++
++	error = joypad_init_ff(joypad);
++	
+ 	/* GPIO key setup */
+ 	__set_bit(EV_KEY, input->evbit);
+ 	for(nbtn = 0; nbtn < joypad->bt_gpio_count; nbtn++) {
