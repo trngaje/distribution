@@ -8,9 +8,17 @@ SOURCE_DIR="/usr/config/ppsspp"
 CONF_DIR="/storage/.config/ppsspp"
 PPSSPP_INI="/PSP/SYSTEM/ppsspp.ini"
 
-if [ ! -d "${CONF_DIR}" ]
-then
-  cp -rf ${SOURCE_DIR} ${CONF_DIR}
+#if [ ! -d "${CONF_DIR}" ]
+#then
+#  cp -rf ${SOURCE_DIR} ${CONF_DIR}
+#fi
+
+#create the symbol link for savedata
+if [ ! -h /storage/.config/ppsspp/PSP/SAVEDATA ]; then
+  if [ ! -d /storage/.config/ppsspp/PSP ]; then
+     mkdir -p /storage/.config/ppsspp/PSP
+  fi
+  ln -s -f /roms/psp/ppsspp/PSP/SAVEDATA /storage/.config/ppsspp/PSP/SAVEDATA
 fi
 
 #Set the cores to use

@@ -1,0 +1,355 @@
+config save_at_exit
+device_alsa_device default
+device_alsa_mixer channel
+device_color_bgr15 yes
+device_color_bgr16 yes
+device_color_bgr24 yes
+device_color_bgr32 yes
+device_color_bgr8 yes
+device_color_palette8 yes
+device_color_yuy2 yes
+device_dpi_pclock_low 31250000
+device_fb_fastset no
+device_hdmi_pclock_low 0
+device_joystick auto
+device_keyboard sdl
+device_mouse none
+device_raw_firstkeyhack no
+device_raw_mousedev[0] auto
+device_raw_mousedev[1] auto
+device_raw_mousedev[2] auto
+device_raw_mousedev[3] auto
+device_raw_mousetype[0] pnp
+device_raw_mousetype[1] pnp
+device_raw_mousetype[2] pnp
+device_raw_mousetype[3] pnp
+device_sdl_samples 512
+device_sound auto
+device_video sdl
+device_video_cursor auto
+device_video_doublescan yes
+device_video_fastchange no
+device_video_interlace yes
+device_video_output auto
+device_video_overlaysize auto
+device_video_singlescan yes
+difficulty none
+display_brightness 1
+display_gamma 1
+#display_orientation none
+display_resizeeffect auto
+display_restoreatexit yes
+display_restoreatgame no
+display_size auto
+event_alpha no
+event_assign up joy_up or up or 8_pad
+event_assign down joy_down or down or 2_pad
+event_assign left joy_left or left or 4_pad
+event_assign right joy_right or right or 6_pad
+event_assign enter joy_b or enter or enter_pad or mouse_button1
+event_assign esc none
+event_assign space joy_happy4 or space or joy_start
+event_assign home none
+event_assign end none
+event_assign pgup joy_tl or pgup
+event_assign pgdn joy_tr or pgdn
+event_assign del none
+event_assign ins none
+event_assign exit joy_tl2 or esc
+event_assign shutdown none
+event_assign mode none
+event_assign calib none
+event_assign help none
+event_assign group none
+event_assign type hidden
+event_assign exclude none
+event_assign sort none
+event_assign setgroup none
+event_assign settype hidden
+event_assign runclone none
+event_assign command joy_happy6 or f8
+event_assign menu joy_select or backquote or backslash or mouse_button3
+event_assign emulator none
+event_assign rotate hidden
+event_assign lock none
+event_assign preview hidden
+event_assign mute none
+event_assign volume hidden
+event_assign difficulty hidden
+event_assign runcommand joy_x
+event_assign cancel joy_a
+event_assign capture joy_happy2
+event_mode fast
+event_repeat 500 50
+icon_space 43
+idle_screensaver 60 14
+#idle_screensaver_preview play
+idle_screensaver_preview none
+idle_start 0 0
+include 
+input_hotkey yes
+lock no
+menu_base 0
+menu_rel 0
+merge differential
+misc_exit menu
+misc_quiet no
+mode tile_tiny
+
+mouse_delta 100
+preview snap
+preview_default none
+preview_default_cabinet none
+preview_default_flyer none
+preview_default_icon none
+preview_default_marquee none
+preview_default_snap none
+preview_default_title none
+preview_expand 1.15
+sort parent
+sound_background_begin none
+sound_background_end none
+sound_background_loop none
+sound_background_loop_dir none
+sound_background_start none
+sound_background_stop none
+sound_buffer 0.1
+sound_foreground_begin none
+sound_foreground_end none
+sound_foreground_key none
+sound_foreground_start none
+sound_foreground_stop none
+sound_latency 0.1
+sound_samplerate 44100
+sound_volume -3
+ui_autocalib no
+ui_background none
+ui_bar_font "font.ttf"
+ui_bar_size auto
+ui_bottombar yes
+ui_clip multiloopall
+ui_color help a7a7a7 000000
+ui_color help_tag ffffff 000000
+#ui_color submenu_bar ffffff 2e2e2e
+ui_color submenu_bar ffffff 000000
+#ui_color submenu_item d6d6d6 2e2e2e
+ui_color submenu_item d6d6d6 000000
+#ui_color submenu_item_select ffffff 474747
+ui_color submenu_item_select ffffff 008000
+ui_color submenu_hidden ffffff 808080
+ui_color submenu_hidden_select afffff 474747
+ui_color menu_item ffffff 000000
+ui_color menu_hidden ababab 000000
+ui_color menu_tag ffffff 000000
+ui_color menu_item_select 000000 ffffff
+ui_color menu_hidden_select 808080 ffffff
+ui_color menu_tag_select 000000 ffffff
+ui_color bar a8a8a8 000000
+ui_color bar_tag ffffff 000000
+ui_color bar_hidden a8a8a8 000000
+ui_color grid ffffff 000000
+ui_color overscan ffffff 000000
+ui_color backdrop 000000 000000
+ui_color icon ffffff ffffff
+ui_color cursor ffffff ffffff
+ui_command_error "커맨드 실행 중에 에러 발생 했습니다."
+ui_command_menu 커맨드 실행
+ui_ip ifconfig eth0 | grep 'inet' | cut -d: -f2 | awk '{print $2}' | tr -d '\n'
+ui_battery cat /sys/class/power_supply/battery/capacity | tr -d '\n'
+ui_runcommand_cfg /storage/runcommand
+misc_languagefile hangulmenu.lng
+ui_console no
+ui_exit none
+ui_game snap
+ui_gamemsg "Loading"
+ui_help none
+ui_menu_font "BinggraeMelona.ttf"
+ui_menu_size 14
+ui_menukey no
+ui_name yes
+ui_outline no
+ui_scrollbar yes
+ui_skipbottom 0
+ui_skiphorz auto
+ui_skipleft 0
+ui_skipright 0
+ui_skiptop 0
+ui_skipvert auto
+ui_startup none
+ui_text_font "font.ttf"
+ui_text_size 24
+ui_topbar yes
+ui_topname no
+ui_translucency 0.6
+
+mode_skip tile_marquee tile_icon tile_giant tile_enormous tile_big
+
+#emulator "advmame" advmame "advmame"""
+
+emulator "advmame" generic "advmame" "%s"
+emulator_roms "advmame" "/storage/roms/mame-advmame"
+emulator_roms_filter "advmame" "*.zip"
+emulator_altss "advmame" "/storage/roms/mame-advmame/mng"
+#advmame/mode tile_small
+#display_orientation 
+
+emulator "fbneo" generic "/storage/runcommand/runcommand.sh" "fbneo %p"
+emulator_roms "fbneo" "/storage/roms/fbneo"
+emulator_roms_filter "fbneo" "*.zip"
+emulator_altss "fbneo" "/storage/roms/fbneo/mng:/storage/roms/fbneo/snap"
+
+emulator "gb" generic "/storage/runcommand/runcommand.sh" "gb %p"
+emulator_roms "gb" "/storage/roms/gb"
+emulator_roms_filter "gb" "*.zip:*.gb"
+emulator_altss "gb" "/storage/roms/gb/mng:/storage/roms/gb/snap"
+
+emulator "gbc" generic "/storage/runcommand/runcommand.sh" "gbc %p"
+emulator_roms "gbc" "/storage/roms/gbc"
+emulator_roms_filter "gbc" "*.zip:*.gbc"
+emulator_altss "gbc" "/storage/roms/gbc/mng:/storage/roms/gbc/snap"
+
+emulator "gba" generic "/storage/runcommand/runcommand.sh" "gba %p"
+emulator_roms "gba" "/storage/roms/gba"
+emulator_roms_filter "gba" "*.zip:*.gba"
+emulator_altss "gba" "/storage/roms/gba/mng:/storage/roms/gba/snap"
+
+emulator "snes" generic "/storage/runcommand/runcommand.sh" "snes %p"
+#emulator "snes" generic "advmess" "snes -cart %p"
+emulator_roms "snes" "/storage/roms/snes"
+emulator_roms_filter "snes" "*.smc:*.zip:*.sfc"
+emulator_altss "snes" "/storage/roms/snes/mng:/storage/roms/snes/snap"
+
+#emulator "nes" generic "advmess" "nes -cart %p"
+emulator "nes" generic "/storage/runcommand/runcommand.sh" "nes %p"
+emulator_roms "nes" "/storage/roms/nes"
+emulator_roms_filter "nes" "*.nes:*.zip"
+emulator_altss "nes" "/storage/roms/nes/mng:/storage/roms/nes/snap"
+
+emulator "pcengine" generic "/storage/runcommand/runcommand.sh" "pcengine %p"
+emulator_roms "pcengine" "/storage/roms/pcengine"
+emulator_roms_filter "pcengine" "*.pce"
+emulator_altss "pcengine" "/storage/roms/pcengine/mng:/storage/roms/pcengine/snap"
+
+emulator "megadrive" generic "/storage/runcommand/runcommand.sh" "megadrive %p"
+emulator_roms "megadrive" "/storage/roms/megadrive"
+emulator_roms_filter "megadrive" "*.md:*.zip"
+emulator_altss "megadrive" "/storage/roms/megadrive/mng:/storage/roms/megadrive/snap"
+
+#emulator "apple2" generic "/storage/runcommand/runcommand.sh" "apple2 %p"
+emulator "apple2" generic "advmess" "apple2c -flop %p"
+emulator_roms "apple2" "/storage/roms/apple2"
+emulator_roms_filter "apple2" "*.dsk"
+emulator_altss "apple2" "/storage/roms/apple2/mng:/storage/roms/apple2/snap"
+
+emulator "nds" generic "/storage/runcommand/runcommand.sh" "nds %p"
+emulator_roms "nds" "/storage/roms/nds"
+emulator_roms_filter "nds" "*.nds:*.zip"
+emulator_altss "nds" "/storage/roms/nds/mng:/storage/roms/nds/snap"
+
+emulator "pc98" generic "/storage/runcommand/runcommand.sh" "pc98 %p"
+emulator_roms "pc98" "/storage/roms/pc98"
+emulator_roms_filter "pc98" "*.hdi:*.zip"
+emulator_altss "pc98" "/storage/roms/pc98/mng:/storage/roms/pc98/snap"
+
+emulator "psp" generic "/storage/runcommand/runcommand.sh" "psp %p"
+emulator_roms "psp" "/storage/roms/psp"
+emulator_roms_filter "psp" "*.iso:*.ISO"
+emulator_altss "psp" "/storage/roms/psp/mng:/storage/roms/psp/snap"
+
+
+ui_command "launch EmulationStation" \
+. /etc/profile.d/001-functions \
+set_setting boot Emulationstation \
+sync \
+reboot
+
+
+group_import catver "advmame" "advmame_bios.ini" "Category"
+group_import catver "fbneo" "fbneo_bios.ini" "Category"
+
+device_video_clock 5 - 50 / 15.62 / 50 ; 5 - 50 / 15.73 / 60
+advmame/mode tile_2x2
+display_orientation 
+nes/mode tile_2x2
+fbneo/mode tile_2x2
+gb/mode tile_2x2
+gbc/mode tile_2x2
+gba/mode tile_2x2
+snes/mode tile_2x2
+pcengine/mode tile_2x2
+megadrive/mode tile_2x2
+apple2/mode tile_2x2
+nds/mode tile_2x2
+pc98/mode tile_2x2
+psp/mode tile_2x2
+group_include "<undefined>"
+advmame/group_include "<undefined>"
+fbneo/group_include "<undefined>"
+emulator_include "advmame"
+group "시스템 / 바이오스"
+group "<undefined>"
+type "<undefined>"
+emulator_attrib "advmame" missing exclude
+emulator_attrib "advmame" duplicate include
+emulator_attrib "fbneo" missing exclude
+emulator_attrib "fbneo" duplicate include
+emulator_attrib "gb" missing exclude
+emulator_attrib "gb" duplicate include
+emulator_attrib "gbc" missing exclude
+emulator_attrib "gbc" duplicate include
+emulator_attrib "gba" missing exclude
+emulator_attrib "gba" duplicate include
+emulator_attrib "snes" missing exclude
+emulator_attrib "snes" duplicate include
+emulator_attrib "nes" missing exclude
+emulator_attrib "nes" duplicate include
+emulator_attrib "pcengine" missing exclude
+emulator_attrib "pcengine" duplicate include
+emulator_attrib "megadrive" missing exclude
+emulator_attrib "megadrive" duplicate include
+emulator_attrib "apple2" missing exclude
+emulator_attrib "apple2" duplicate include
+emulator_attrib "nds" missing exclude
+emulator_attrib "nds" duplicate include
+emulator_attrib "pc98" missing exclude
+emulator_attrib "pc98" duplicate include
+emulator_attrib "psp" missing exclude
+emulator_attrib "psp" duplicate include
+game "advmame/1943kai" "" "" 45 1 ""
+game "advmame/arkanoid" "" "" 304 1 ""
+game "advmame/circusc" "" "" 678 3 ""
+game "advmame/contra" "" "" 30 1 ""
+game "advmame/cosmogng" "" "" 58 1 ""
+game "advmame/danceyes" "" "" 117 3 ""
+game "advmame/ddp3" "" "" 42 1 ""
+game "advmame/galaga" "" "" 54 1 ""
+game "advmame/galpans2" "" "" 30 1 ""
+game "advmame/leaguemn" "" "" 44 1 ""
+game "advmame/macross" "" "" 83 1 ""
+game "advmame/mazinger" "" "" 49 1 ""
+game "advmame/nbbatman" "" "" 73 2 ""
+game "advmame/pang3" "" "" 79 1 ""
+game "advmame/pooyan" "" "" 297 2 ""
+game "advmame/samuraia" "" "" 44 1 ""
+game "advmame/searchey" "" "" 50 1 ""
+game "advmame/spang" "" "" 230 1 ""
+game "apple2/Lode Runner (1983)(broderbund)[cr]" "" "" 442 2 ""
+game "fbneo/gunbird2" "" "" 81 1 ""
+game "fbneo/raiden2" "" "" 67 1 ""
+game "gb/Mole Mania" "" "" 43 1 ""
+game "gb/피크로스2(한)" "" "" 6354 4 ""
+game "gba/Kurukuru Kururin" "" "" 34 2 ""
+game "gba/마리오 카트 어드밴스 (한글)" "" "" 868 7 ""
+game "gbc/Metal Gear - Ghost Babel (kor)" "" "" 145 1 ""
+game "gbc/Pokemon Picross (K)" "" "" 838 4 ""
+game "nds/0168 - Mario Kart DS (U)(SCZ)" "" "" 342 3 ""
+game "nds/1062 - Picross DS (E)(Legacy)" "" "" 716 4 ""
+game "nds/고스트 트릭 (J-K)" "" "" 0 5 ""
+game "nds/레이튼 교수와 런던의 휴일 (J-K)" "" "" 0 1 ""
+game "nes/악마성 스페셜 - 나는 드라큐라군" "" "" 198 1 ""
+game "pc98/Active Angel Halo patch" "" "" 0 2 ""
+game "pc98/Cocktail Soft 피아캐롯 1" "" "" 0 1 ""
+game "pc98/ELF 하급생SP" "" "" 0 1 ""
+game "pc98/TGL 파랜드 스토리6" "" "" 187 2 ""
+game "snes/Picross NP Vol. 5" "" "" 672 1 ""
+game "snes/Picross NP Vol. 7" "" "" 7702 6 ""

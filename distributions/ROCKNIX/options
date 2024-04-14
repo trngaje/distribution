@@ -8,7 +8,7 @@
   HARDENING_SUPPORT="no"
 
 # The name of the parent organization for updates
-  GIT_ORGANIZATION="ROCKNIX"
+  GIT_ORGANIZATION="trngaje"
 
 # The name of the github project for updates
   GIT_REPO="distribution"

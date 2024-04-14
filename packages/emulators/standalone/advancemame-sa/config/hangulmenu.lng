@@ -1,0 +1,218 @@
+[LangInfo]
+Version=1.0
+Font=BinggraeMelona
+Author=trngaje
+
+[Strings]
+Select command
+명령을 고르세요.
+Continue
+계속하기
+Exit
+끝내기
+Shutdown
+전원 끄기
+Listing...
+리스트 설정
+Settings...
+설정
+Emulators...
+에뮬레이터 선택
+Volume...
+소리 크기 설정
+Difficulty...
+난이도 설정
+Clone...
+클론 선택
+Help
+도움말
+Statistics
+게임 통계 값 표시
+Runcommand...
+런커맨드 설정
+Poweroff
+전원 끄기
+Menu
+메뉴
+In the game menu:
+게임 메뉴에서:
+Main menu
+메인 메뉴
+Run the current game/On menu accept the choice
+선택된 게임을 실행하기/메뉴에서는 항목을 선택하기
+Next preview mode/On menu change the option
+다음 미리보기 모드/메뉴에서는 옵션을 변경하기
+Next menu mode
+다음 메뉴 모드로 바꾸기
+Next game group
+다음 게임 그룹으로 바꾸기
+Next game type
+다음 게임 타입으로 바꾸기
+Include/Exclude games by attribute
+게임 특성을 포함/미포함 하기
+Select the game sort method
+게임 정렬 방법을 고르기
+Next emulator
+다음 에뮬레이터로 변경하기
+Commands
+명령을 실행하기
+Change the current game group
+현재 게임 그룹을 변경하기
+Change the current game type
+현재 게임 타입을 변경하기
+Run a clone
+클론 롬을 실행
+Rotate the screen
+화면을 회전하기
+In the submenus:
+서브 메뉴에서:
+Accept
+승인
+Unselect all
+모든 선택을 취소
+Select all
+모두 선택
+Toggle (+ include, - exclude, * required)
+토글 (+ 포함, - 미포함, * 필수)
+Cancel
+취소
+Select List Mode
+리스트 모드 선택
+Select Preview Mode
+미리보기 모드 선택
+Include Groups
+그룹 포함
+Include Emulators
+기기(에뮬레이터) 포함
+Include Types
+타입 포함
+Delete game snapshot
+게임 스냅샷 지우기
+Delete game clip
+게임 클립 지우기
+Delete game flyer
+게임 플라이어 지우기
+Delete game cabinet
+게임 캐비넷 지우기
+Delete game icon
+게임 아이콘 지우기
+Delete shown image (from parent)
+표시되는 이미지 지우기 (부모로부터)
+Delete game sound
+게임 사운드 지우기
+Delete played sound (from parent)
+재생되는 사운드 지우기 (부모로부터)
+(shown)
+(표시됨)
+(played)
+(재생됨)
+No commands available
+이용가능한 명령어가 없음
+Error
+에러
+Listing Emulator
+에뮬레이터 리스트
+Listing Multiple
+여러 리스트
+Sort...
+정렬 방법 설정
+Mode...
+리스트 표시 모드 설정
+Preview...
+미리 보기 설정
+Groups...
+그룹 설정
+Types...
+타입 설정
+Filters...
+필터 설정
+Game Group...
+게임 그룹 설정
+Game Type...
+게임 타입 설정
+Calibration...
+조이스틱 정보
+Save all settings
+모든 설정 값 저장
+Restore all settings
+모든 설정 값 복구
+Clear all stats
+모든 통계 값 지우기
+Lock settings
+잠금 설정
+Settings
+설정
+Joystick Configuration
+조이스틱 구성
+No bluetooth daemon
+블루투스 데몬이 없습니다
+Joystick
+조이스틱
+<none>
+<없음>
+Connect one joystick to continue
+계속하려면 조이스틱을 연결해 주세요
+Press any button to continue
+계속하려면 버튼을 눌러 주세요
+Select Sort Mode
+정렬 모드를 고르세요
+Parent
+부모롬
+Emulator
+에뮬레이터
+Name
+이름
+Time played
+플레이한 시간
+Smart time
+스마트 시간
+Play times
+플레이한 횟수
+Time per play
+매 플레이한 시간
+Group
+그룹
+Type
+타입
+Manufacturer
+제조사
+Year
+생산 년도
+Size
+크기
+Resolution
+해상도
+Info
+정보
+Listed
+리스트
+Total
+전체
+Perc
+비율
+Games
+게임
+Play
+플레이한 횟수 
+Time
+플레이한 시간
+Most time
+가장 많이 플레이한 시간
+Most play
+가장 많이 플레이한 횟수
+Most time per play
+한번 플레이 할 때 가장 많은 시간
+Capture the current screen
+현재 화면을 캡쳐하여 파일로 저장
+No game was found
+게임이 없습니다.
+No game was found for the emulator
+지정된 에뮬레이터 게임이 없습니다.에뮬레이터:
+No game matches the group selection for
+선택된 그룹에 속하는 게임이 없습니다.그룹:
+No game matches the type selection for
+선택한 타입에 속하는 게임이 없습니다.타입:
+No game matches the filter selection for
+선택한 필터에 속하는 게임이 없습니다.필터:
+<empty>
+<없음>

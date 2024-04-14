@@ -15,10 +15,18 @@ STEP=10
 
 case ${1} in
   "+"|"up")
+  if [ "$(get_setting audio.volumebutton.swap)" == "0" ]; then
     VOLUME=$(( ${VOLUME} + ${STEP} ))
+  else
+    VOLUME=$(( ${VOLUME} - ${STEP} ))  
+  fi
   ;;
   "-"|"down")
+  if [ "$(get_setting audio.volumebutton.swap)" == "0" ]; then
     VOLUME=$(( ${VOLUME} - ${STEP} ))
+  else
+    VOLUME=$(( ${VOLUME} + ${STEP} ))  
+  fi
   ;;
   *)
     VOLUME=${1}

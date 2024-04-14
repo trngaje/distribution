@@ -144,6 +144,10 @@ makeinstall_target() {
     mkdir -p ${INSTALL}/usr/share/${dir}
     touch ${INSTALL}/usr/share/${dir}/.overlay
   done
+  
+  #install fonts
+  mkdir -p ${INSTALL}/usr/share/fonts/noto-cjk
+  cp ${PKG_DIR}/fonts/Noto*.ttf ${INSTALL}/usr/share/fonts/noto-cjk/
 }
 
 post_install() {

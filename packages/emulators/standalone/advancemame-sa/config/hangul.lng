@@ -1,0 +1,348 @@
+[LangInfo]
+Version=1.0
+Font=BinggraeMelona
+Author=trngaje
+
+[Strings]
+Return to Main Menu
+메인메뉴로 돌아가기
+Return to Prior Menu
+이전 메뉴로 돌아가기
+Press Any Key
+아무 키나 누르세요
+INVALID
+무효
+(none)
+(없음)
+Address
+주소
+Value
+값
+Sound
+사운드 코어
+sound
+사운드용
+stereo
+스테레오
+Vector Game
+벡터 게임
+Screen Resolution
+화면 해상도
+Text
+텍스트
+Volume
+음량
+Relative
+상태
+ALL CHANNELS
+모든 채널
+Brightness
+밝기
+Gamma
+감마
+Vector Flicker
+벡터 플릭커
+Vector Intensity
+벡터 명도
+Overclock
+오버클럭
+ALL CPUS
+모든 CPU
+History not available
+정보가 없습니다
+There are known problems with this game
+이 게임은 다음과 같은 문제가 있습니다:
+The colors aren't 100% accurate.
+색의 재현이 불완전합니다.
+The colors are completely wrong.
+색이 재현이 완전히 잘못됐습니다.
+The video emulation isn't 100% accurate.
+비디오 에뮬레이션이 불완전합니다.
+The sound emulation isn't 100% accurate.
+사운드 에뮬레이션이 불완전합니다.
+The game lacks sound.
+소리가 나오지 않습니다.
+Screen flipping in cocktail mode is not supported.
+칵테일 모드의 화면 반전을 지원하지 못합니다.
+THIS GAME DOESN'T WORK. You won't be able to make it work correctly.  Don't bother.
+※이 게임은 전혀 동작하지 않습니다
+The game has protection which isn't fully emulated.
+이 게임은 보호장치 때문에 에뮬레이션이 불완전합니다.
+There are working clones of this game. They are:
+다음과 같이 이게임의 클론이 있습니다: 
+One or more ROMs/CHDs for this game are incorrect. The game may not run correctly.
+이 게임의 한개 이상의 ROMs/CHDs 이 이상합니다. 게임이 올바르게 실행되지 못할 것입니다.
+Type OK or move the joystick left then right to continue
+OK 라고 입력하거나 조이스틱 좌/우 순으로 움직이세요.
+User Interface
+사용자 인터페이스
+Player 1 Controls
+플레이어 1 제어
+Player 2 Controls
+플레이어 2 제어
+Player 3 Controls
+플레이어 3 제어
+Player 4 Controls
+플레이어 4 제어
+Player 5 Controls
+플레이어 5 제어
+Player 6 Controls
+플레이어 6 제어
+Player 7 Controls
+플레이어 7 제어
+Player 8 Controls
+플레이어 8 제어
+Other Controls
+다른 제어
+Return to Groups
+그룹으로 돌아가기
+Uptime
+가동 시간
+Tickets dispensed
+티켓 분배수
+Coin
+코인
+(locked)
+(고정)
+Input (general)
+입력 설정 (전체)
+Dip Switches
+딥 스위치
+Analog Controls
+아날로그 제어
+Calibrate Joysticks
+조이스틱 조정
+Bookkeeping Info
+부가 정보
+Input (this game)
+입력 설정 (이 게임)
+Game Information
+게임 정보
+Game History
+게임 역사
+Reset Game
+게임 재시작
+Return to Game
+게임으로 돌아가기
+Card Number:
+카드 번호:
+Load Selected Card
+선택된 카드 읽기
+Eject Current Card
+현재 카드 꺼내기
+Create New Card
+새로운 카드 만들기
+Error loading memory card
+메모리 카드 읽는 중 오류
+Memory card loaded
+메모리 카드가 로드되었음
+Memory card ejected
+메모리 카드 꺼냄
+Memory card created
+메모리 카드 생성됨
+Error creating memory card
+메모리 카드 만들기 오류
+(Card may already exist)
+(카드가 이미 존재합니다)
+Enable/Disable a Cheat
+치트 사용/해제
+Add/Edit a Cheat
+치트 추가/편집
+Start a New Cheat Search
+새로운 치트 검색 시작
+Continue Search
+치트 검색 계속
+View Last Results
+마지막 결과 표시
+Restore Previous Results
+이전 결과 복구
+Configure Watchpoints
+조사 위치의 설정
+General Help
+치트 도움말
+Options
+옵션
+Reload Database
+치트 파일 다시 읽기
+Watchpoint
+치트 옵션
+Disabled
+무효
+Cheats
+치트
+Memory Card
+메모리 카드
+Watchpoints
+조사 위치
+More Info
+보충 설명
+More Info for
+보충 설명:
+Name
+이름
+Description
+설명
+Activation Key
+활성화 키
+Code
+코드
+Max
+최대
+Set
+사용
+Cheat conflict found: disabling
+같은 치트 찾음: 무효로 하기
+Help not available yet
+치트 도움말이 없습니다
+Cheat
+치트 설정
+Video
+화면 설정
+Audio
+소리 설정
+Select Command
+명령을 선택하세요
+Continue
+계속하기
+Load
+데이타를 불러오기
+Save
+데이타를 저장하기
+Reset
+재시작 하기
+Exit
+종료
+Video Mode
+비디오 모드
+Video Menu
+화면 설정 메뉴
+Pipeline Blit Time
+파이프라인 블릿 시간
+Time measure not completed
+시간 측정이 완료되지 않음
+Mode...
+모드...
+Magnify [1]
+확대 [1]
+Magnify [2]
+확대 [2]
+Magnify [3]
+확대 [3]
+Magnify [4]
+확대 [4]
+Resize [no]
+리사이즈 [없음]
+Resize [integer]
+리사이즈 [정수배]
+Resize [mixed]
+리사이즈 [혼합]
+Resize [fractional]
+리사이즈 [실수배]
+Color [palette8]
+색상 [palette8]
+Color [bgr8]
+색상 [bgr8]
+Color [bgr15]
+색상 [bgr15]
+Color [bgr16]
+색상 [bgr16]
+Color [bgr32]
+색상 [bgr32]
+Color [yuy2]
+색상 [yuy2]
+Color [unknown]
+색상 [알수없음]
+Resize Effect [no]
+리사이즈 효과 [없음]
+Resize Effect [max]
+리사이즈 효과 [최대]
+Resize Effect [mean]
+리사이즈 효과 [mean]
+Resize Effect [filter]
+리사이즈 효과 [필터]
+Resize Effect [scalex]
+리사이즈 효과 [scalex]
+Resize Effect [scalek]
+리사이즈 효과 [scalek]
+Resize Effect [hq]
+리사이즈 효과 [hq]
+Resize Effect [xbr]
+리사이즈 효과 [xbr]
+Rgb Effect [no]
+RGB 효과 [없음]
+Rgb Effect [triad3dot]
+RGB 효과 [triad3dot]
+Rgb Effect [triad6dot]
+RGB 효과 [triad6dot]
+Rgb Effect [triad16dot]
+RGB 효과 [triad16dot]
+Rgb Effect [triadstrong3dot]
+RGB 효과 [triadstrong3dot]
+Rgb Effect [triadstrong6dot]
+RGB 효과 [triadstrong6dot]
+Rgb Effect [triadstrong16dot]
+RGB 효과 [triadstrong16dot]
+Rgb Effect [scan2horz]
+RGB 효과 [scan2horz]
+Rgb Effect [scan3horz]
+RGB 효과 [scan3horz]
+Rgb Effect [scan2vert]
+RGB 효과 [scan2vert]
+Rgb Effect [scan3vert]
+RGB 효과 [scan3vert]	
+Details...
+상세 정보...
+Save for this game
+이 게임에만 설정 값 저장
+Save for this game size/freq
+이 게임에만 size/freq 값 저장
+Save for all vector games
+모든 게임의 설정 값 저장
+Save for this game size
+이 게임에만 화면 크기 설정 값 저장
+Audio Pipeline
+오디오 파이프라인
+Audio Menu
+소리 설정 메뉴
+Mode [mono]
+모드 [모노]
+Mode [stereo]
+모드 [스테레오]
+Mode [surround]
+모드 [서라운드]
+Attenuation (dB)
+소리 크기 (dB)
+Normalize
+Normalize
+Auto normalize
+Auto normalize
+Amplifier (dB)
+소리 증폭 (dB)
+Equalizer
+이퀄라이져
+Low Freq (dB)
+저음 (dB)
+Mid Freq (dB)
+중간음 (dB)
+High Freq (dB)
+고음 (dB)
+Warning: Save states are not officially supported for this game.
+주의: 이 게임에는 상태 저장 기능이 공식적으로 지원되지 않습니다.
+State successfully saved.
+성공적으로 데이터가 저장되었습니다.
+Error: Failed to save state
+에러: 데이터를 저장하지 못했습니다.
+State successfully loaded.
+성공적으로 데이터를 불러왔습니다.
+Error: Failed to load state
+에러: 데이터를 불러오는데 실패 했습니다.
+Unable to load due to pending anonymous timers. See error.log for details.
+익명 타이머가 보류 중이므로 불러오기를 할 수 없습니다. 자세한 내용은 error.log를 참조하십시오.
+Error: Unable to save state due to illegal registrations. See error.log for details.
+오류: 잘못된 등록으로 상태를 저장할 수 없습니다. 자세한 내용은 error.log를 참조하십시오.
+Unable to save due to pending anonymous timers. See error.log for details.
+익명 타이머가 보류 중이므로 저장할 수 없습니다. 자세한 내용은 error.log를 참조하십시오.
+Set Autofire
+자동 연사설정
+Autofire delay
+딜레이

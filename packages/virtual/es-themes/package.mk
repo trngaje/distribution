@@ -4,6 +4,6 @@
 PKG_NAME="es-themes"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://rocknix.org"
-PKG_DEPENDS_TARGET="es-theme-art-book-next"
+PKG_DEPENDS_TARGET="es-theme-art-book-next es-theme-persona5-dc-RGB30"
 PKG_SECTION="virtual"
 PKG_LONGDESC="EmulationStation themes package."

@@ -17,4 +17,5 @@ PKG_TOOLCHAIN="manual"
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/share/themes/${PKG_NAME}
   cp -rf * ${INSTALL}/usr/share/themes/${PKG_NAME}
+  cp -rf $PKG_DIR/systems/* ${INSTALL}/usr/share/themes/${PKG_NAME}/_inc/systems/
 }

@@ -1,0 +1,28 @@
+diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
+index f5607c8..c9f2cb0 100644
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -3071,6 +3071,23 @@ void GuiMenu::openUISettings()
+ 	auto themeSets = ThemeData::getThemeSets();
+ 	auto system = ViewController::get()->getState().getSystem();
+ 
++	s->addGroup(_("BOOT"));
++	auto jelos_boot_def = std::make_shared< OptionListComponent<std::string> >(mWindow, "START AT BOOT", false);
++	std::vector<std::string> devices;
++	devices.push_back("Emulationstation");
++	devices.push_back("AttractMode");
++	devices.push_back("AdvMenu");
++	for (auto it = devices.cbegin(); it != devices.cend(); it++)
++	jelos_boot_def->add(*it, *it, SystemConf::getInstance()->get("boot") == *it);
++	s->addWithLabel(_("START AT BOOT"), jelos_boot_def);
++	s->addSaveFunc([jelos_boot_def] {
++		if (jelos_boot_def->changed()) {
++			std::string selectedBootMode = jelos_boot_def->getSelected();
++			SystemConf::getInstance()->set("boot", selectedBootMode);
++			SystemConf::getInstance()->saveSystemConf();
++		}
++	});
++
+ 	s->addGroup(_("APPEARANCE"));
+ 
+ 	if (system != nullptr && !themeSets.empty())

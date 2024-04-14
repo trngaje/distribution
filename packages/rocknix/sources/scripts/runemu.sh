@@ -140,6 +140,12 @@ clear_screen
 bluetooth disable
 set_kill stop
 
+# np2kai needs the font for each rom
+if [[ ${CORE} == "np2kai" ]]; then
+ROM_FILENAME="${BASEROMNAME%.*}"
+cp "${GAMEFOLDER}/${ROM_FILENAME}.bmp" "/storage/roms/bios/np2kai/font.bmp"
+fi
+
 ### Determine which emulator we're launching and make appropriate adjustments before launching.
 ${VERBOSE} && log $0 "Configuring for ${EMULATOR}"
 case ${EMULATOR} in

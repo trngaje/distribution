@@ -97,5 +97,4 @@ makeinstall_target() {
     cp ${PKG_DIR}/sources/${DEVICE}/* ${INSTALL}/usr/config/ppsspp/PSP/SYSTEM
   fi
   rm ${INSTALL}/usr/config/ppsspp/assets/gamecontrollerdb.txt
-  ln -sf NotoSansJP-Regular.ttf ${INSTALL}/usr/config/ppsspp/assets/Roboto-Condensed.ttf
 }

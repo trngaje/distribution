@@ -17,7 +17,7 @@ LIBRETRO_CORES="81-lr a5200-lr arduous-lr atari800-lr beetle-gba-lr beetle-lynx-
                 bluemsx-lr cap32-lr crocods-lr daphne-lr dosbox-svn-lr dosbox-pure-lr duckstation-lr duckstation-sa easyrpg-lr        \
                 emuscv-lr fake08-lr fbalpha2012-lr fbalpha2019-lr fbneo-lr fceumm-lr flycast2021-lr fmsx-lr freechaf-lr freeintv-lr   \
                 freej2me-lr fuse-lr gambatte-lr gearboy-lr gearcoleco-lr gearsystem-lr genesis-plus-gx-lr genesis-plus-gx-wide-lr     \
-                gw-lr handy-lr hatari-lr idtech-lr jaxe-lr mame-lr mame2003-plus-lr mame2010-lr mame2015-lr melonds-lr mesen-lr       \
+                gw-lr handy-lr hatari-lr idtech-lr jaxe-lr mame-lr mame2003-plus-lr mame2010-lr melonds-lr mesen-lr       \
                 mgba-lr minivmac-lr  mojozork-lr mu-lr mupen64plus-lr mupen64plus-nx-lr neocd_lr nestopia-lr np2kai-lr o2em-lr        \
                 opera-lr parallel-n64-lr pcsx_rearmed-lr picodrive-lr pokemini-lr potator-lr prosystem-lr puae-lr puae2021-lr         \
                 px68k-lr quasi88-lr quicknes-lr race-lr same_cdi-lr sameboy-lr sameduck-lr scummvm-lr smsplus-gx-lr snes9x-lr         \
@@ -48,7 +48,7 @@ case "${DEVICE}" in
   RK356*)
     [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr"
     PKG_DEPENDS_TARGET+=" common-shaders glsl-shaders"
-    PKG_EMUS+=" box64 drastic-sa mednafen portmaster scummvmsa yabasanshiro-sa"
+    PKG_EMUS+=" box64 drastic-sa mednafen portmaster scummvmsa yabasanshiro-sa advancemame-sa openmsx-sa"
     LIBRETRO_CORES+=" flycast-lr uae4arm"
     PKG_RETROARCH+=" retropie-shaders"
   ;;
@@ -168,6 +168,10 @@ makeinstall_target() {
   add_emu_core amstradcpc retroarch cap32 false
   add_es_system amstradcpc
 
+  ### advmame
+  add_emu_core advmame advmame advmame-sa true
+  add_es_system advmame
+  
   ### Arcade
   add_emu_core arcade retroarch mame2003_plus true
   add_emu_core arcade retroarch mame2010 false
@@ -176,6 +180,7 @@ makeinstall_target() {
   add_emu_core arcade retroarch fbalpha2012 false
   add_emu_core arcade retroarch fbalpha2019 false
   add_emu_core arcade retroarch mame false
+  add_emu_core arcade advmame advmame-sa false
   add_es_system arcade
 
   ### Arduboy
@@ -577,6 +582,7 @@ makeinstall_target() {
   add_emu_core mame retroarch fbneo false
   add_emu_core mame retroarch fbalpha2012 false
   add_emu_core mame retroarch fbalpha2019 false
+  add_emu_core arcade advmame advmame-sa false
   add_es_system mame
 
   ### Sega MegaDrive
@@ -616,6 +622,7 @@ makeinstall_target() {
   ### Microsoft MSX
   add_emu_core msx retroarch bluemsx true
   add_emu_core msx retroarch fmsx false
+  add_emu_core msx openmsx openmsx-sa false
   add_es_system msx
 
   ### Microsoft MSX 2

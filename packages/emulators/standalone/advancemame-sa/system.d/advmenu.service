@@ -1,0 +1,18 @@
+[Unit]
+Description=EmulationStation emulator frontend
+ConditionPathExists=/var/lock/start.games
+After=jelos-automount.service
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/var/run/0-runtime-dir
+Environment=HOME=/storage
+Environment=SDL_AUDIODRIVER=pulseaudio
+ExecStart=/usr/bin/start_advmenu.sh
+KillMode=process
+TimeoutStopSec=3
+Restart=always
+RestartSec=2
+StartLimitInterval=0
+
+[Install]
+WantedBy=jelos.target

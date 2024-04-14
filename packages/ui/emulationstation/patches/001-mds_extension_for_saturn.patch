@@ -1,0 +1,67 @@
+diff --git a/es-app/src/guis/GuiMenu.cpp b/es-app/src/guis/GuiMenu.cpp
+index 43418c4..47eae11 100644
+--- a/es-app/src/guis/GuiMenu.cpp
++++ b/es-app/src/guis/GuiMenu.cpp
+@@ -4165,6 +4165,15 @@ void GuiMenu::openSoundSettings()
+ 		volumePopup->setState(Settings::getInstance()->getBool("VolumePopup"));
+ 		s->addWithLabel(_("SHOW OVERLAY WHEN VOLUME CHANGES"), volumePopup);
+ 		s->addSaveFunc([volumePopup] { Settings::getInstance()->setBool("VolumePopup", volumePopup->getState()); });
++		
++		// add flip volume button
++		auto volBtns = std::make_shared<SwitchComponent>(mWindow);
++		volBtns->setState(SystemConf::getInstance()->getBool("audio.volumebutton.swap"));
++		s->addWithLabel(_("FLIP VOLUME BUTTONS"), volBtns);
++		s->addSaveFunc([this, s, volBtns] {
++			bool volumeswaped = volBtns->getState();
++			SystemConf::getInstance()->set("audio.volumebutton.swap", volumeswaped ? "1" : "0");
++		});
+ 	}
+ 
+ 	s->addGroup(_("MUSIC"));
+@@ -4256,6 +4265,9 @@ void GuiMenu::openSoundSettings()
+ 
+ 
+ 
++        
++		
++
+ 	mWindow->pushGui(s);
+ }
+ 
+diff --git a/es-core/src/Settings.cpp b/es-core/src/Settings.cpp
+index 83dc250..c3a17c0 100644
+--- a/es-core/src/Settings.cpp
++++ b/es-core/src/Settings.cpp
+@@ -319,7 +319,7 @@ void Settings::setDefaults()
+ 	mBoolMap["kodi.atstartup"] = false;
+ 	mBoolMap["network.enabled"] = false;
+ #endif
+-
++	
+ 	mDefaultBoolMap = mBoolMap;
+ 	mDefaultIntMap = mIntMap;
+ 	mDefaultFloatMap = mFloatMap;
+diff --git a/external/libcheevos/rcheevos/src/rhash/hash.c b/external/libcheevos/rcheevos/src/rhash/hash.c
+index 0f25405..1b541a5 100644
+--- a/external/libcheevos/rcheevos/src/rhash/hash.c
++++ b/external/libcheevos/rcheevos/src/rhash/hash.c
+@@ -1935,7 +1935,7 @@ int rc_hash_generate_from_file(char hash[33], int console_id, const char* path)
+ 
+     case RC_CONSOLE_SEGA_CD:
+     case RC_CONSOLE_SATURN:
+-      if (rc_path_compare_extension(path, "m3u"))
++      if (rc_path_compare_extension(path, "m3u") || rc_path_compare_extension(path, "mds"))
+         return rc_hash_generate_from_playlist(hash, console_id, path);
+ 
+       return rc_hash_sega_cd(hash, path);
+@@ -2212,6 +2212,10 @@ void rc_hash_initialize_iterator(struct rc_hash_iterator* iterator, const char*
+         {
+           iterator->consoles[0] = RC_CONSOLE_MEGA_DRIVE;
+         }
++        else if (rc_path_compare_extension(ext, "mds"))
++        {
++          iterator->consoles[0] = RC_CONSOLE_SATURN;
++        }
+         else if (rc_path_compare_extension(ext, "min"))
+         {
+           iterator->consoles[0] = RC_CONSOLE_POKEMON_MINI;

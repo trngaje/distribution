@@ -16,6 +16,7 @@ PKG_DEPENDS_TARGET="toolchain squashfs-tools:host dosfstools:host fakeroot:host 
                     gzip six lynx xmlstarlet vim pyudev dialog dbus-python network rocknix"
 
 PKG_UI="emulationstation es-themes textviewer"
+PKG_UI+=" attract"
 
 PKG_UI_TOOLS="fileman fbgrab"
 
@@ -23,7 +24,7 @@ PKG_GRAPHICS="imagemagick"
 
 PKG_FONTS="corefonts"
 
-PKG_MULTIMEDIA="ffmpeg vlc mpv gmu"
+PKG_MULTIMEDIA="ffmpeg vlc mpv gmu_kr"
 
 PKG_SOUND="espeak libao"
 
