@@ -1,0 +1,60 @@
+diff --git a/evdevd.c b/evdevd.c
+index f210bb9..5f4ca99 100644
+--- a/evdevd.c
++++ b/evdevd.c
+@@ -10,6 +10,7 @@
+ #include <string.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#include <unistd.h>
+ 
+ #include "libevdev/libevdev.h"
+ 
+@@ -208,7 +209,7 @@ void *threadPowerButtons(void *argumentPointer)
+ 		g_io_channel_set_buffered(m_io_channel, FALSE);
+ 
+ 		m_source_id = g_io_add_watch(m_io_channel, G_IO_IN | G_IO_ERR | G_IO_HUP,
+-									 &on_read_data, NULL);	
++									 (GIOFunc)&on_read_data, NULL);	
+ 									 
+ 		g_main_loop_run(m_gmain);
+ 	}
+@@ -1099,7 +1100,7 @@ main(int argc, char **argv)
+        
+ 			case 'h':
+ 				display_help(argv[0]);
+-				return;
++				return 0;
+ 				break;
+ 			
+ 			case 'l':
+@@ -1133,7 +1134,7 @@ main(int argc, char **argv)
+ 			default:
+ 				printf("Unknown option. '%s'\n", longopts[option_index].name);
+                 //exit(EXIT_FAILURE);
+-				return;
++				return 0;
+ 		}
+ 	}
+ 
+diff --git a/fifo.c b/fifo.c
+index 7dd3ff7..d3ae229 100644
+--- a/fifo.c
++++ b/fifo.c
+@@ -6,6 +6,9 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ 
++#include <sys/types.h>
++#include <sys/stat.h>
++
+ extern int g_iLeftAnalog_to_RightAnalog;
+ extern int g_iDPAD_rotate;
+ 
+@@ -82,4 +85,4 @@ void *threadGetFifoMessages(void *argumentPointer)
+   unlink(file);    /* unlink from the underlying file */
+ 
+   return 0;
+-}
+\ No newline at end of file
++}

@@ -20,21 +20,14 @@
 ################################################################################
 
 PKG_NAME="bluemsx-lr"
-PKG_VERSION="e8a4280bcbd149d1e020adcd9469ad9d8bd67412"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="824690b5ac997ec9694e8db1595186459bb3b652"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/blueMSX-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="Port of blueMSX to the libretro API."
 PKG_LONGDESC="Port of blueMSX to the libretro API."
 
-PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
-PKG_AUTORECONF="no"
 
 make_target() {
   make -f Makefile.libretro

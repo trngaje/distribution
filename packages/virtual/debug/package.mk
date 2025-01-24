@@ -6,7 +6,7 @@ PKG_VERSION=""
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.openelec.tv"
 PKG_URL=""
-PKG_DEPENDS_TARGET="toolchain gdb apitrace valgrind strace edid-decode memtester smartmontools"
+PKG_DEPENDS_TARGET="toolchain gdb apitrace valgrind strace edid-decode memtester smartmontools stress-ng dtbocfg"
 PKG_SECTION="virtual"
 PKG_LONGDESC="debug is a Metapackage for installing debugging tools"
 
@@ -25,6 +25,6 @@ if build_with_debug && [ "$VALGRIND" = "yes" ]; then
   PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} valgrind"
 fi
 
-if listcontains "${GRAPHIC_DRIVERS}" "panfrost"; then
+if listcontains "${GRAPHIC_DRIVERS}" "panfrost|freedreno"; then
   PKG_DEPENDS_TARGET="${PKG_DEPENDS_TARGET} nvtop"
 fi

@@ -20,16 +20,11 @@
 ################################################################################
 
 PKG_NAME="atari800-lr"
-PKG_VERSION="410d7bf0c215f3444793a9cec51c129e7b67c400"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="50141a6bf1a069abd86dd8c53aa4031f3f7cfbd1"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/libretro/libretro-atari800"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="atari800 3.1.0 for libretro/libco WIP"
 PKG_LONGDESC="atari800 3.1.0 for libretro/libco WIP"
 PKG_TOOLCHAIN="auto"
 GET_HANDLER_SUPPORT="git"

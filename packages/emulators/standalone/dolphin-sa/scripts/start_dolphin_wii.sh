@@ -1,10 +1,15 @@
 #!/bin/bash
 
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2022-present JELOS (https://github.com/JustEnoughLinuxOS)
+# Copyright (C) 2024-present ROCKNIX (https://github.com/ROCKNIX)
 
 . /etc/profile
 set_kill set "-9 dolphin-emu-nogui"
+
+# Load gptokeyb support files
+control-gen_init.sh
+source /storage/.config/gptokeyb/control.ini
+get_controls
 
 #Check if dolphin-emu exists in .config
 if [ ! -d "/storage/.config/dolphin-emu" ]; then
@@ -12,18 +17,23 @@ if [ ! -d "/storage/.config/dolphin-emu" ]; then
         cp -r "/usr/config/dolphin-emu" "/storage/.config/"
 fi
 
-#Check if Wii controller profile exists in .config/dolphin-emu
-if [ ! -f "/storage/.config/dolphin-emu/WiimoteNew.ini" ]; then
-        cp -r "/usr/config/dolphin-emu/WiiControllerProfiles/vremote.ini" "/storage/.config/dolphin-emu/WiimoteNew.ini"
+#Check if GC controller dir exists in .config/dolphin-emu/GamecubeControllerProfiles
+if [ ! -d "/storage/.config/dolphin-emu/GamecubeControllerProfiles" ]; then
+        cp -r "/usr/config/dolphin-emu/GamecubeControllerProfiles" "/storage/.config/dolphin-emu/"
+fi
+
+#Check if Wii controller dir exists in .config/dolphin-emu/WiiControllerProfiles
+if [ ! -d "/storage/.config/dolphin-emu/WiiControllerProfiles" ]; then
+        cp -r "/usr/config/dolphin-emu/WiiControllerProfiles" "/storage/.config/dolphin-emu/"
 fi
 
 #Check if Wii custom controller profile exists in .config/dolphin-emu
-if [ ! -f "/storage/.config/dolphin-emu/Custom_WiimoteNew.ini" ]; then
-        cp -r "/usr/config/dolphin-emu/WiiControllerProfiles/remote.ini" "/storage/.config/dolphin-emu/Custom_WiimoteNew.ini"
+if [ ! -f "/storage/.config/dolphin-emu/WiiControllerProfiles/custom.ini" ]; then
+        cp -r "/storage/.config/dolphin-emu/WiiControllerProfiles/vremote.ini" "/storage/.config/dolphin-emu/WiiControllerProfiles/custom.ini"
 fi
 
 #Gamecube controller profile needed for hotkeys to work
-cp -r "/usr/config/dolphin-emu/GCPadNew.ini.south" "/storage/.config/dolphin-emu/GCPadNew.ini"
+cp -r "/storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.south" "/storage/.config/dolphin-emu/GCPadNew.ini"
 
 #Link Save States to /roms/savestates/wii
 if [ ! -d "/storage/roms/savestates/wii/" ]; then
@@ -37,8 +47,23 @@ ln -sf /storage/roms/savestates/wii /storage/.config/dolphin-emu/StateSaves
 cp -r /usr/config/dolphin-emu/GFX.ini /storage/.config/dolphin-emu.GFX.ini
 cp -r /usr/config/dolphin-emu/Dolphin.ini /storage/.config/dolphin-emu.Dolphin.ini
 
+#Emulation Station options
+GAME=$(echo "${1}"| sed "s#^/.*/##")
+PLATFORM=$(echo "${2}"| sed "s#^/.*/##")
+AA=$(get_setting anti_aliasing "${PLATFORM}" "${GAME}")
+ASPECT=$(get_setting aspect_ratio "${PLATFORM}" "${GAME}")
+CLOCK=$(get_setting clock_speed "${PLATFORM}" "${GAME}")
+RENDERER=$(get_setting graphics_backend "${PLATFORM}" "${GAME}")
+IRES=$(get_setting internal_resolution "${PLATFORM}" "${GAME}")
+FPS=$(get_setting show_fps "${PLATFORM}" "${GAME}")
+CON=$(get_setting wii_controller_profile "${PLATFORM}" "${GAME}")
+HKEY=$(get_setting hotkey_enable_button "${PLATFORM}" "${GAME}")
+SHADERM=$(get_setting shader_mode "${PLATFORM}" "${GAME}")
+SHADERP=$(get_setting shader_precompile "${PLATFORM}" "${GAME}")
+VSYNC=$(get_setting vsync "${PLATFORM}" "${GAME}")
+
 #Set the cores to use
-CORES=$(get_setting "cores" "${PLATFORM}" "${ROMNAME##*/}")
+CORES=$(get_setting "cores" "${PLATFORM}" "${GAME}")
 if [ "${CORES}" = "little" ]
 then
   EMUPERF="${SLOW_CORES}"
@@ -49,19 +74,6 @@ else
   ### All..
   unset EMUPERF
 fi
-
-  #Emulation Station options
-  GAME=$(echo "${1}"| sed "s#^/.*/##")
-  AA=$(get_setting anti_aliasing wii "${GAME}")
-  ASPECT=$(get_setting aspect_ratio wii "${GAME}")
-  CLOCK=$(get_setting clock_speed wii "${GAME}")
-  RENDERER=$(get_setting graphics_backend wii "${GAME}")
-  IRES=$(get_setting internal_resolution wii "${GAME}")
-  FPS=$(get_setting show_fps wii "${GAME}")
-  CON=$(get_setting wii_controller_profile wii "${GAME}")
-  SHADERM=$(get_setting shader_mode wii "${GAME}")
-  SHADERP=$(get_setting shader_precompile wii "${GAME}")
-  VSYNC=$(get_setting vsync wii "${GAME}")
 
   #Anti-Aliasing
 	if [ "$AA" = "0" ]
@@ -220,23 +232,29 @@ fi
   #Wii Controller Profile
         if [ "$CON" = "vremote" ]
         then
-		cp -r /usr/config/dolphin-emu/WiiControllerProfiles/vremote.ini /storage/.config/dolphin-emu/WiimoteNew.ini
-        fi
-        if [ "$CON" = "hremote" ]
+		cp -r /storage/.config/dolphin-emu/WiiControllerProfiles/vremote.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+        elif [ "$CON" = "hremote" ]
         then
-                cp -r /usr/config/dolphin-emu/WiiControllerProfiles/hremote.ini /storage/.config/dolphin-emu/WiimoteNew.ini
-        fi
-        if [ "$CON" = "nunchuck" ]
+                cp -r /storage/.config/dolphin-emu/WiiControllerProfiles/hremote.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+        elif [ "$CON" = "nunchuck" ]
         then
-                cp -r /usr/config/dolphin-emu/WiiControllerProfiles/nunchuck.ini /storage/.config/dolphin-emu/WiimoteNew.ini
-        fi
-        if [ "$CON" = "classic" ]
+                cp -r /storage/.config/dolphin-emu/WiiControllerProfiles/nunchuck.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+        elif [ "$CON" = "classic" ]
         then
-                cp -r /usr/config/dolphin-emu/WiiControllerProfiles/classic.ini /storage/.config/dolphin-emu/WiimoteNew.ini
-        fi
-        if [ "$CON" = "custom" ]
+                cp -r /storage/.config/dolphin-emu/WiiControllerProfiles/classic.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+        elif [ "$CON" = "custom" ]
         then
-                cp -r /storage/.config/dolphin-emu/Custom_WiimoteNew.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+                cp -r /storage/.config/dolphin-emu/WiiControllerProfiles/custom.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+        else
+                cp -r /storage/.config/dolphin-emu/WiiControllerProfiles/classic.ini /storage/.config/dolphin-emu/WiimoteNew.ini
+        fi
+
+  #Wii Controller Hotkey Enable
+        if [ "$HKEY" = "mode" ]
+        then
+                sed -i '/^Buttons\/Hotkey =/c\Buttons\/Hotkey = Button 8' /storage/.config/dolphin-emu/GCPadNew.ini
+        else
+                sed -i '/^Buttons\/Hotkey =/c\Buttons\/Hotkey = Button 6' /storage/.config/dolphin-emu/GCPadNew.ini
         fi
 
   #VSYNC
@@ -253,5 +271,9 @@ fi
 rm -rf /storage/.local/share/dolphin-emu
 ln -sf /storage/.config/dolphin-emu /storage/.local/share/dolphin-emu
 
+@LIBMALI@
+
 #Run Dolphin emulator
-${EMUPERF} /usr/bin/dolphin-emu-nogui -p @DOLPHIN_PLATFORM@ -a HLE -e "${1}"
+  ${GPTOKEYB} dolphin-emu-nogui xbox360 &
+  ${EMUPERF} /usr/bin/dolphin-emu-nogui -p @DOLPHIN_PLATFORM@ -a HLE -e "${1}"
+  kill -9 "$(pidof gptokeyb)"

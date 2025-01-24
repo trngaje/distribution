@@ -4,24 +4,24 @@
 # Copyright (C) 2023 JELOS (https://github.com/JustEnoughLinuxOS)
 
 PKG_NAME="mupen64plus-sa-rsp-cxd4"
-PKG_VERSION="0a4e30f56033396e3ba47ec0fdd7acea3522362a"
+PKG_VERSION="f6ff3719cb68d3e1c1497fc87a661921671db719"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/mupen64plus/mupen64plus-rsp-cxd4"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain libpng SDL2 SDL2_net zlib freetype nasm:host mupen64plus-sa-core"
-PKG_SHORTDESC="mupen64plus-rsp-cxd4"
+PKG_LONGDESC="mupen64plus-rsp-cxd4"
 PKG_LONGDESC="Mupen64Plus Standalone RSP CXD4"
 PKG_TOOLCHAIN="manual"
 PKG_BUILD_FLAGS="-fpic"
 
 case ${DEVICE} in
-  AMD64|RK3588|S922X|RK3399|RK3566)
+  AMD64|RK3588|S922X|RK3399|RK3566*|SD865)
     PKG_DEPENDS_TARGET+=" mupen64plus-sa-simplecore"
   ;;
 esac
 
 case ${DEVICE} in
-  AMD64)
+  AMD64|SD865)
     PKG_DEPENDS_TARGET+=" ${OPENGL} glu libglvnd"
     export USE_GLES=0
   ;;
@@ -60,7 +60,7 @@ make_target() {
   cp ${PKG_BUILD}/projects/unix/mupen64plus-rsp-cxd4${SUFFIX}.so ${PKG_BUILD}/projects/unix/mupen64plus-rsp-cxd4-base.so
 
   case ${DEVICE} in
-    AMD64|RK3588|S922X|RK3399|RK3566)
+    AMD64|RK3588|S922X|RK3399|RK3566*|SD865)
       PKG_MAKE_OPTS_TARGET+=" cxd4VIDEO=1"
       export APIDIR=$(get_build_dir mupen64plus-sa-simplecore)/src/api
       make -C projects/unix all ${PKG_MAKE_OPTS_TARGET}

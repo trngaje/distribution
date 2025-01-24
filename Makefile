@@ -24,17 +24,12 @@ src-pkg:
 docs:
 	./tools/foreach './scripts/clean emulators && ./scripts/build emulators'
 
-world: RK3588 RK3566 RK3566-X55 RK3326 RK3399 S922X
+world: RK3588 RK3566 RK3326 RK3399 S922X
 
 AMD64:
 	unset DEVICE_ROOT
 	PROJECT=PC DEVICE=AMD64 ARCH=i686 ./scripts/build_distro
 	PROJECT=PC DEVICE=AMD64 ARCH=x86_64 ./scripts/build_distro
-
-INTEL64:
-	unset DEVICE_ROOT
-	PROJECT=PC DEVICE=INTEL64 ARCH=i686 ./scripts/build_distro
-	PROJECT=PC DEVICE=INTEL64 ARCH=x86_64 ./scripts/build_distro
 
 RK3588:
 	unset DEVICE_ROOT
@@ -56,10 +51,6 @@ RK3566:
 	DEVICE_ROOT=RK3566 PROJECT=Rockchip DEVICE=RK3566 ARCH=arm ./scripts/build_distro
 	DEVICE_ROOT=RK3566 PROJECT=Rockchip DEVICE=RK3566 ARCH=aarch64 ./scripts/build_distro
 
-RK3566-X55:
-	DEVICE_ROOT=RK3566 PROJECT=Rockchip DEVICE=RK3566-X55 ARCH=arm ./scripts/build_distro
-	DEVICE_ROOT=RK3566 PROJECT=Rockchip DEVICE=RK3566-X55 ARCH=aarch64 ./scripts/build_distro
-
 RK3326:
 	unset DEVICE_ROOT
 	PROJECT=Rockchip DEVICE=RK3326 ARCH=arm ./scripts/build_distro
@@ -69,6 +60,16 @@ RK3399:
 	unset DEVICE_ROOT
 	PROJECT=Rockchip DEVICE=RK3399 ARCH=arm ./scripts/build_distro
 	PROJECT=Rockchip DEVICE=RK3399 ARCH=aarch64 ./scripts/build_distro
+
+H700:
+	unset DEVICE_ROOT
+	PROJECT=Allwinner DEVICE=H700 ARCH=arm ./scripts/build_distro
+	PROJECT=Allwinner DEVICE=H700 ARCH=aarch64 ./scripts/build_distro
+
+SD865:
+	unset DEVICE_ROOT
+	PROJECT=Qualcomm DEVICE=SD865 ARCH=arm ./scripts/build_distro
+	PROJECT=Qualcomm DEVICE=SD865 ARCH=aarch64 ./scripts/build_distro
 
 update:
 	PROJECT=Rockchip DEVICE=RK3588 ARCH=aarch64 ./scripts/update_packages
@@ -90,11 +91,14 @@ docker-%: DOCKER_IMAGE := "rocknix/rocknix-build:latest"
 #   Anytime this directory changes, you must run `make clean` similarly to moving the distribution directory
 docker-%: DOCKER_WORK_DIR := $(shell if [ -n "${DOCKER_WORK_DIR}" ]; then echo ${DOCKER_WORK_DIR}; else echo "$$(pwd)" ; fi)
 
-# ${HOME}/.${DISTRONAME}/options is a global options file containing developer and build settings.
-docker-%: GLOBAL_SETTINGS := $(shell if [ -f "${HOME}/.${DISTRONAME}/options" ]; then echo "-v \"${HOME}/.${DISTRONAME}/options:${HOME}/.${DISTRONAME}/options\""; else echo ""; fi)
+# ${HOME}/.ROCKNIX/options is a global options file containing developer and build settings.
+docker-%: GLOBAL_SETTINGS := $(shell if [ -f "${HOME}/.ROCKNIX/options" ]; then echo "-v \"${HOME}/.ROCKNIX/options:${HOME}/.ROCKNIX/options\""; else echo ""; fi)
 
 # LOCAL_SSH_KEYS_FILE is a variable that contains the location of the authorized keys file for development build use.  It will be mounted into the container if it exists.
 docker-%: LOCAL_SSH_KEYS_FILE := $(shell if [ -n "${LOCAL_SSH_KEYS_FILE}" ]; then echo "-v \"${LOCAL_SSH_KEYS_FILE}:${LOCAL_SSH_KEYS_FILE}\""; else echo ""; fi)
+
+# EMULATIONSTATION_SRC is a variable that contains the location of local emulationstation source code. It will be mounted into the container if it exists.
+docker-%: EMULATIONSTATION_SRC := $(shell if [ -n "${EMULATIONSTATION_SRC}" ]; then echo "-v \"${EMULATIONSTATION_SRC}:${EMULATIONSTATION_SRC}\""; else echo ""; fi)
 
 # UID is the user ID of current user - ensures docker sets file permissions properly
 docker-%: UID := $(shell id -u)
@@ -119,16 +123,16 @@ docker-%: INTERACTIVE=$(shell [ -t 0 ] && echo "-it")
 docker-%: COMMAND=make $*
 
 # Get .env file ready
-docker-%: $(shell env | grep "=" > .env)
+docker-%: $(shell ./scripts/get_env > .env)
 
 # If the user issues a `make docker-shell` just start up bash as the shell to run commands
 docker-shell: COMMAND=bash
 
-# Command: builds and pushes a hybrid docker image to dockerhub
-# You must login with: docker login --username <username> and provide either a password or token (from user settings -> security in dockerhub) before this will work.  The build user must also be a member of the "docker" group.
+# Command: builds and saves a docker builder image locally.
+# The build user must also be a member of the "docker" group.
 docker-image-build:
 	$(DOCKER_CMD) buildx create --use
-	$(DOCKER_CMD) buildx build --tag $(DOCKER_IMAGE) --platform linux/amd64,linux/arm64 --push .
+	$(DOCKER_CMD) buildx build --tag $(DOCKER_IMAGE) --platform $(shell if [ "$(uname -m)" = "aarch64" ]; then echo "linux/arm64"; else echo "linux/amd64"; fi) --load .
 
 # Command: pulls latest docker image from dockerhub.  This will *replace* locally built version.
 docker-image-pull:
@@ -136,5 +140,4 @@ docker-image-pull:
 
 # Wire up docker to call equivalent make files using % to match and $* to pass the value matched by %
 docker-%:
-	BUILD_DIR=$(DOCKER_WORK_DIR) $(DOCKER_CMD) run $(PODMAN_ARGS) $(INTERACTIVE) --init --env-file .env --rm --user $(UID):$(GID) $(GLOBAL_SETTINGS) $(LOCAL_SSH_KEYS_FILE) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_EXTRA_OPTS) $(DOCKER_IMAGE) $(COMMAND)
-
+	BUILD_DIR=$(DOCKER_WORK_DIR) $(DOCKER_CMD) run $(PODMAN_ARGS) $(INTERACTIVE) --init --env-file .env --rm --user $(UID):$(GID) $(GLOBAL_SETTINGS) $(LOCAL_SSH_KEYS_FILE) $(EMULATIONSTATION_SRC) -v $(PWD):$(DOCKER_WORK_DIR) -w $(DOCKER_WORK_DIR) $(DOCKER_EXTRA_OPTS) $(DOCKER_IMAGE) $(COMMAND)

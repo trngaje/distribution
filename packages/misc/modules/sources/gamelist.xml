@@ -39,11 +39,11 @@
     <game>
         <path>./cloud_backup.sh</path>
         <name>RCLONE Backup</name>
-        <desc>Backup your saves to a cloud drive using RCLONE. Please make sure you have followed the steps at jelos.org to set up RCLONE first.</desc>
+        <desc>Backup your saves to a cloud drive using RCLONE. Please make sure you have followed the steps at rocknix.org to set up RCLONE first.</desc>
         <developer>ROCKNIX</developer>
         <publisher>ROCKNIX</publisher>
         <rating>5.0</rating>
-        <releasedate>2022</releasedate>
+        <releasedate>2024</releasedate>
         <genre>Script</genre>
         <players>1</players>
         <image>./images/rclone-backup.svg</image>
@@ -51,11 +51,11 @@
     <game>
         <path>./cloud_restore.sh</path>
         <name>RCLONE Restore</name>
-        <desc>Restores your saves from a cloud drive using RCLONE. Please make sure you have followed the steps at jelos.org to set up RCLONE first.</desc>
+        <desc>Restores your saves from a cloud drive using RCLONE. Please make sure you have followed the steps at rocknix.org to set up RCLONE first.</desc>
         <developer>ROCKNIX</developer>
         <publisher>ROCKNIX</publisher>
         <rating>5.0</rating>
-        <releasedate>2022</releasedate>
+        <releasedate>2024</releasedate>
         <genre>Script</genre>
         <players>1</players>
         <image>./images/rclone-restore.svg</image>
@@ -71,6 +71,18 @@
         <genre>Script</genre>
         <players>1</players>
         <image>./images/remove-mac-files.svg</image>
+    </game>
+    <game>
+        <path>./Start AetherSX2.sh</path>
+        <name>Start AetherSX2</name>
+        <desc>Opens the AetherSX2 GUI (PS2) to enable global configuration changes to be made directly to the emulator. It's recommended to have a mouse and keyboard to modify settings.</desc>
+        <developer>ROCKNIX</developer>
+        <publisher>ROCKNIX</publisher>
+        <rating>5.0</rating>
+        <releasedate>2021</releasedate>
+        <genre>Emulator</genre>
+        <players>1</players>
+        <image>./images/aethersx2.svg</image>
     </game>
     <game>
         <path>./Start CEMU.sh</path>
@@ -193,5 +205,28 @@
         <genre>Emulator</genre>
         <players>1</players>
         <image>./images/xemu.svg</image>
+    </game>
+    <game>
+        <path>./Create id Tech Launchers.sh</path>
+        <name>Create id Tech Launchers</name>
+        <desc>Creates launchers for id software games</desc>
+        <developer>ROCKNIX</developer>
+        <publisher>ROCKNIX</publisher>
+        <rating>5.0</rating>
+        <releasedate>2023</releasedate>
+        <genre>Emulator</genre>
+        <players>1</players>
+        <image>./images/idtech.svg</image>
+    </game>
+    <game>
+        <path>./Test Gamepad.sh</path>
+        <name>Test Gamepad</name>
+        <desc>Simple SDL GUI gamepad tester</desc>
+        <developer>ROCKNIX</developer>
+        <publisher>ROCKNIX</publisher>
+        <rating>5.0</rating>
+        <releasedate>2024</releasedate>
+        <genre>tool</genre>
+        <players>1</players>
     </game>
 </gameList>

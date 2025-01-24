@@ -5,6 +5,13 @@
   # Bootloader to use (syslinux / u-boot)
     BOOTLOADER="u-boot"
 
+  # U-Boot firmware package(s) to use
+    UBOOT_FIRMWARE="amlogic-boot-fip"
+
+  # Kernel extra targets to build
+    KERNEL_MAKE_EXTRACMD=" $(while IFS= read -r DTB; do echo -n "amlogic/${DTB}.dtb "; done < <(xmlstarlet sel -t -v "//dtb/${DEVICE}//file" -n ${PROJECT_DIR}/${PROJECT}/bootloader/dtb.xml))"
+    KERNEL_UBOOT_EXTRA_TARGET=""
+
   # Kernel extra targets to build
     KERNEL_UBOOT_EXTRA_TARGET=""
 
@@ -51,12 +58,8 @@
   # additional packages to install
     ADDITIONAL_PACKAGES=""
 
-  # build and install CEC framework support (yes / no)
-    CEC_FRAMEWORK_SUPPORT="yes"
-
   # debug tty path
     DEBUG_TTY="/dev/ttyAML0"
 
-  # build with entware installer
-    ENTWARE_SUPPORT="yes"
-    ENTWARE_ARCH="aarch64-k3.10"
+  # ROCKNIX Subdevices
+    SUBDEVICES=$(xmlstarlet sel -t -m "//dtb/${DEVICE}/*[@bootmethod]" -v "name()" -n ${PROJECT_DIR}/${PROJECT}/bootloader/dtb.xml)

@@ -20,21 +20,14 @@
 ################################################################################
 
 PKG_NAME="cap32-lr"
-PKG_VERSION="1569dac2674512fa503dbb95eb32bccbe2908063"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="bae879df46f7f22951efda256c19b1692b77ef3e"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/libretro-cap32"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="caprice32 4.2.0 libretro"
 PKG_LONGDESC="caprice32 4.2.0 libretro"
 
-PKG_IS_ADDON="no"
 PKG_TOOLCHAIN="make"
-PKG_AUTORECONF="no"
 
 makeinstall_target() {
   mkdir -p ${INSTALL}/usr/lib/libretro

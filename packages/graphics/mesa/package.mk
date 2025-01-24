@@ -4,43 +4,42 @@
 
 PKG_NAME="mesa"
 PKG_LICENSE="OSS"
-PKG_DEPENDS_TARGET="toolchain expat libdrm Mako:host"
+PKG_SITE="http://www.mesa3d.org/"
+PKG_DEPENDS_TARGET="toolchain expat libdrm zstd Mako:host pyyaml:host"
 PKG_LONGDESC="Mesa is a 3-D graphics library with an API."
 PKG_TOOLCHAIN="meson"
 PKG_PATCH_DIRS+=" ${DEVICE}"
 
 case ${DEVICE} in
-  RK3588*)
-	PKG_VERSION="832c3c7117e4366e415ded92a6f07ec203fd9233"
-	PKG_SITE="https://github.com/ROCKNIX/mesa-panfork"
-	PKG_URL="${PKG_SITE}.git"
-  ;;
-  RK3*|S922X)
-    if [ "${DEVICE}" = "S922X" -a "${USE_MALI}" != "no" ]; then
-      PKG_VERSION="24.0.4"
-	    PKG_SITE="http://www.mesa3d.org/"
-	    PKG_URL="https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-${PKG_VERSION}/mesa-mesa-${PKG_VERSION}.tar.gz"
-    else
-      #Using upstream dev for panfrost
-	    PKG_VERSION="db29984c254f60f5daeec0ea4e6048b6ee7902f8"
-	    PKG_SITE="https://gitlab.freedesktop.org/mesa/mesa"
-	    PKG_URL="${PKG_SITE}.git"
-	    PKG_PATCH_DIRS+=" panfrost"
-    fi
+  SD865)
+    PKG_VERSION="23.3.6"
+    PKG_URL="https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-${PKG_VERSION}/mesa-mesa-${PKG_VERSION}.tar.gz"
   ;;
   *)
-	PKG_VERSION="24.0.4"
-	PKG_SITE="http://www.mesa3d.org/"
-	PKG_URL="https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-${PKG_VERSION}/mesa-mesa-${PKG_VERSION}.tar.gz"
+    PKG_VERSION="24.2.5"
+    PKG_BUILD_VERSION="${PKG_VERSION}"
+    PKG_URL="https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-${PKG_VERSION}/mesa-mesa-${PKG_VERSION}.tar.gz"
   ;;
 esac
 
 get_graphicdrivers
 
-PKG_MESON_OPTS_TARGET="-Dgallium-drivers=${GALLIUM_DRIVERS// /,} \
+# Fix for juggling multiple versions of mesa
+case ${PKG_VERSION} in
+  ${PKG_BUILD_VERSION})
+    GALLIUM_DRIVERS=${GALLIUM_DRIVERS//"kmsro "/}
+    if [ "${llVM_SUPPORT}" = "yes" ]; then
+      GALLIUM_DRIVERS=${GALLIUM_DRIVERS//"swrast"/"softpipe llvmpipe"}
+    else
+      GALLIUM_DRIVERS=${GALLIUM_DRIVERS//"swrast"/"softpipe"}
+    fi
+  ;;
+esac
+
+PKG_MESON_OPTS_TARGET=" ${MESA_LIBS_PATH_OPTS} \
+                       -Dgallium-drivers=${GALLIUM_DRIVERS// /,} \
                        -Dgallium-extra-hud=false \
                        -Dgallium-omx=disabled \
-                       -Dgallium-nine=true \
                        -Dgallium-opencl=disabled \
                        -Dgallium-xa=disabled \
                        -Dshader-cache=enabled \
@@ -59,12 +58,14 @@ if [ "${DISPLAYSERVER}" = "x11" ]; then
   export X11_INCLUDES=
   PKG_MESON_OPTS_TARGET+="	-Dplatforms=x11 \
 				-Ddri3=enabled \
+				-Dgallium-nine=true \
 				-Dglx=dri \
 				-Dglvnd=true"
 elif [ "${DISPLAYSERVER}" = "wl" ]; then
   PKG_DEPENDS_TARGET+=" wayland wayland-protocols libglvnd glfw"
   PKG_MESON_OPTS_TARGET+=" 	-Dplatforms=wayland,x11 \
 				-Ddri3=enabled \
+				-Dgallium-nine=true \
 				-Dglx=dri \
 				-Dglvnd=true"
   PKG_DEPENDS_TARGET+=" xorgproto libXext libXdamage libXfixes libXxf86vm libxcb libX11 libxshmfence libXrandr libglvnd"
@@ -72,6 +73,7 @@ elif [ "${DISPLAYSERVER}" = "wl" ]; then
 else
   PKG_MESON_OPTS_TARGET+="	-Dplatforms="" \
 				-Ddri3=disabled \
+				-Dgallium-nine=false \
 				-Dglx=disabled \
 				-Dglvnd=false"
 fi
@@ -112,7 +114,7 @@ else
 fi
 
 post_makeinstall_target() {
-  if [ "${DEVICE}" = "S922X" -a "${USE_MALI}" != "no" ]; then
+  if listcontains "${GRAPHIC_DRIVERS}" "(panfrost)"; then
     rm -f ${INSTALL}/usr/lib/libvulkan_panfrost.so ${INSTALL}/usr/share/vulkan/icd.d/panfrost_icd.aarch64.json
   fi
 }

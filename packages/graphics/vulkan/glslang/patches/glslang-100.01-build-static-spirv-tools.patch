@@ -1,34 +1,17 @@
---- a/External/CMakeLists.txt
-+++ b/External/CMakeLists.txt
-@@ -71,7 +71,8 @@ endif()
- if(ENABLE_OPT AND NOT TARGET SPIRV-Tools-opt)
-     if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/spirv-tools)
-         set(SPIRV_SKIP_TESTS ON CACHE BOOL "Skip building SPIRV-Tools tests")
--        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/spirv-tools spirv-tools)
-+        set(BUILD_SHARED_LIBS OFF CACHE BOOL "Disable build shared libs" FORCE)
-+        add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/spirv-tools EXCLUDE_FROM_ALL)
-     endif()
- endif()
+diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
+index 37eecaadd4..0e9037bf7a 100644
+--- a/glslang/CMakeLists.txt
++++ b/glslang/CMakeLists.txt
+@@ -254,11 +254,8 @@ if(PROJECT_IS_TOP_LEVEL)
  
---- a/SPIRV/CMakeLists.txt
-+++ b/SPIRV/CMakeLists.txt
-@@ -100,7 +100,7 @@ if(ENABLE_OPT)
-     target_link_libraries(SPIRV PRIVATE MachineIndependent SPIRV-Tools-opt)
-     target_include_directories(SPIRV PUBLIC
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../External>
--        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/External>)
-+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
- else()
-     target_link_libraries(SPIRV PRIVATE MachineIndependent)
- endif()
---- a/StandAlone/CMakeLists.txt
-+++ b/StandAlone/CMakeLists.txt
-@@ -83,7 +83,7 @@ endif()
- target_link_libraries(glslangValidator ${LIBRARIES})
- target_include_directories(glslangValidator PUBLIC
-     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../External>
--    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/External>)
-+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+     set(PUBLIC_HEADERS
+         Public/ResourceLimits.h
+-        Public/ShaderLang.h
+         Public/resource_limits_c.h
+-        Include/glslang_c_interface.h
+-        Include/glslang_c_shader_types.h
+-        Include/ResourceLimits.h
++        ${GLSLANG_HEADERS}
+         MachineIndependent/Versions.h)
  
- if(ENABLE_OPT)
-     target_include_directories(glslangValidator
+     foreach(file ${PUBLIC_HEADERS})

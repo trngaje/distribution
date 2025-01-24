@@ -1,10 +1,15 @@
 #!/bin/bash
 
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright (C) 2022-present JELOS (https://github.com/JustEnoughLinuxOS)
+# Copyright (C) 2024-present ROCKNIX (https://github.com/ROCKNIX)
 
 . /etc/profile
 set_kill set "-9 dolphin-emu-nogui"
+
+# Load gptokeyb support files
+control-gen_init.sh
+source /storage/.config/gptokeyb/control.ini
+get_controls
 
 #Check if dolphin-emu exists in .config
 if [ ! -d "/storage/.config/dolphin-emu" ]; then
@@ -12,14 +17,14 @@ if [ ! -d "/storage/.config/dolphin-emu" ]; then
         cp -r "/usr/config/dolphin-emu" "/storage/.config/"
 fi
 
-#Check if GC controller profile exists in .config/dolphin-emu
-if [ ! -f "/storage/.config/dolphin-emu/GCPadNew.ini" ]; then
-	cp -r /usr/config/dolphin-emu/GCPadNew.ini.south /storage/.config/dolphin-emu/GCPadNew.ini
+#Check if GC controller dir exists in .config/dolphin-emu/GamecubeControllerProfiles
+if [ ! -d "/storage/.config/dolphin-emu/GamecubeControllerProfiles" ]; then
+        cp -r "/usr/config/dolphin-emu/GamecubeControllerProfiles" "/storage/.config/dolphin-emu/"
 fi
 
-#Check if GC custom controller profile exists in .config/dolphin-emu
-if [ ! -f "/storage/.config/dolphin-emu/Custom_GCPadNew.ini" ]; then
-        cp -r "/usr/config/dolphin-emu/GCPadNew.ini.south" "/storage/.config/dolphin-emu/Custom_GCPadNew.ini"
+#Check if GC custom controller profile exists in .config/dolphin-emu/GamecubeControllerProfiles
+if [ ! -f "/storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.custom" ]; then
+        cp -r "/usr/config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.south" "/storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.custom"
 fi
 
 #Link Save States to /roms/savestates
@@ -34,8 +39,23 @@ ln -sf /storage/roms/savestates/gamecube /storage/.config/dolphin-emu/StateSaves
 cp -r /usr/config/dolphin-emu/GFX.ini /storage/.config/dolphin-emu.GFX.ini
 cp -r /usr/config/dolphin-emu/Dolphin.ini /storage/.config/dolphin-emu.Dolphin.ini
 
+#Emulation Station Features
+GAME=$(echo "${1}"| sed "s#^/.*/##")
+PLATFORM=$(echo "${2}"| sed "s#^/.*/##")
+AA=$(get_setting anti_aliasing "${PLATFORM}" "${GAME}")
+ASPECT=$(get_setting aspect_ratio "${PLATFORM}" "${GAME}")
+CLOCK=$(get_setting clock_speed "${PLATFORM}" "${GAME}")
+RENDERER=$(get_setting graphics_backend "${PLATFORM}" "${GAME}")
+IRES=$(get_setting internal_resolution "${PLATFORM}" "${GAME}")
+FPS=$(get_setting show_fps "${PLATFORM}" "${GAME}")
+CON=$(get_setting gamecube_controller_profile "${PLATFORM}" "${GAME}")
+HKEY=$(get_setting hotkey_enable_button "${PLATFORM}" "${GAME}")
+SHADERM=$(get_setting shader_mode "${PLATFORM}" "${GAME}")
+SHADERP=$(get_setting shader_precompile "${PLATFORM}" "${GAME}")
+VSYNC=$(get_setting vsync "${PLATFORM}" "${GAME}")
+
 #Set the cores to use
-CORES=$(get_setting "cores" "${PLATFORM}" "${ROMNAME##*/}")
+CORES=$(get_setting "cores" "${PLATFORM}" "${GAME}")
 if [ "${CORES}" = "little" ]
 then
   EMUPERF="${SLOW_CORES}"
@@ -46,19 +66,6 @@ else
   ### All..
   unset EMUPERF
 fi
-
-  #Emulation Station Features
-  GAME=$(echo "${1}"| sed "s#^/.*/##")
-  AA=$(get_setting anti_aliasing gamecube "${GAME}")
-  ASPECT=$(get_setting aspect_ratio gamecube "${GAME}")
-  CLOCK=$(get_setting clock_speed gamecube "${GAME}")
-  RENDERER=$(get_setting graphics_backend gamecube "${GAME}")
-  IRES=$(get_setting internal_resolution gamecube "${GAME}")
-  FPS=$(get_setting show_fps gamecube "${GAME}")
-  CON=$(get_setting gamecube_controller_profile gamecube "${GAME}")
-  SHADERM=$(get_setting shader_mode gamecube "${GAME}")
-  SHADERP=$(get_setting shader_precompile gamecube "${GAME}")
-  VSYNC=$(get_setting vsync gamecube "${GAME}")
 
   #Anti-Aliasing
 	if [ "$AA" = "0" ]
@@ -217,15 +224,23 @@ fi
   #GC Controller Profile
         if [ "$CON" = "south" ]
         then
-                cp -r /usr/config/dolphin-emu/GCPadNew.ini.south /storage/.config/dolphin-emu/GCPadNew.ini
-        fi
-        if [ "$CON" = "west" ]
+                cp -r /storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.south /storage/.config/dolphin-emu/GCPadNew.ini
+        elif [ "$CON" = "west" ]
         then
-                cp -r /usr/config/dolphin-emu/GCPadNew.ini.west /storage/.config/dolphin-emu/GCPadNew.ini
-        fi
-        if [ "$CON" = "custom" ]
+                cp -r /storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.west /storage/.config/dolphin-emu/GCPadNew.ini
+        elif [ "$CON" = "custom" ]
         then
-                cp -r /storage/.config/dolphin-emu/Custom_GCPadNew.ini /storage/.config/dolphin-emu/GCPadNew.ini
+                cp -r /storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.custom /storage/.config/dolphin-emu/GCPadNew.ini
+        else
+		cp -r /storage/.config/dolphin-emu/GamecubeControllerProfiles/GCPadNew.ini.south /storage/.config/dolphin-emu/GCPadNew.ini
+        fi
+
+  #GC Controller Hotkey Enable
+        if [ "$HKEY" = "mode" ]
+        then
+                sed -i '/^Buttons\/Hotkey =/c\Buttons\/Hotkey = Button 8' /storage/.config/dolphin-emu/GCPadNew.ini
+        else
+                sed -i '/^Buttons\/Hotkey =/c\Buttons\/Hotkey = Button 6' /storage/.config/dolphin-emu/GCPadNew.ini
         fi
 
   #VSYNC
@@ -242,5 +257,9 @@ fi
 rm -rf /storage/.local/share/dolphin-emu
 ln -sf /storage/.config/dolphin-emu /storage/.local/share/dolphin-emu
 
+@LIBMALI@
+
 #Run Dolphin emulator
-${EMUPERF} /usr/bin/dolphin-emu-nogui -p @DOLPHIN_PLATFORM@ -a HLE -e "${1}"
+  ${GPTOKEYB} dolphin-emu-nogui xbox360 &
+  ${EMUPERF} /usr/bin/dolphin-emu-nogui -p @DOLPHIN_PLATFORM@ -a HLE -e "${1}"
+  kill -9 "$(pidof gptokeyb)"

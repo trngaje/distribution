@@ -1,29 +1,86 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-2.0
-# Copyright (C) 2023 JELOS (https://github.com/JustEnoughLinuxOS)
+# Copyright (C) 2024 ROCKNIX (https://github.com/ROCKNIX)
 
-CONFIGPATH="/storage/.config"
-
-if [ -e "${CONFIGPATH}/rsync.conf" ]
+# check if rclone has been configured
+if [ ! -e "/storage/.config/rclone/rclone.conf" ]
 then
-  source ${CONFIGPATH}/rsync.conf
+  echo "You must configure rclone before using this tool.  Run \`rclone config\` to get started."
+  sleep 3
+  exit
 fi
 
-# If rsync.conf is missing variables set defaults
-MOUNTPATH="${MOUNTPATH:=/storage/cloud}"
-SYNCPATH="${SYNCPATH:=GAMES}"
-BACKUPPATH="${BACKUPPATH:=/storage/roms}"
-RSYNCOPTSBACKUP="${RSYNCOPTSBACKUP:=-raiv --prune-empty-dirs}"
+# check that the internet is reachable
+ONLINESTATUS=`ping -q -c1 google.com &>/dev/null && echo online || echo offline`
+if [ "${ONLINESTATUS}" == "offline" ]
+then
+  echo -e "You're not currently connected to the internet.\nPlease verify your settings and then try again."
+  sleep 3
+  exit
+fi
 
-echo -e "=> ${OS_NAME} CLOUD BACKUP UTILITY\n"
+# Loads cloud sync config variables from cloud_sync.conf
+source /storage/.config/cloud_sync.conf
 
-echo "Mounting ${MOUNTPATH}" 2>&1
-rclonectl mount ${MOUNTPATH} 2>&1
+# Check if needed default variables from the conf file are present, and add if nececssary
+if [ "${BACKUPPATH}" == "" ] || [ "${RESTOREPATH}" == "" ] || [ "${SYNCPATH}" == "" ] || [ "${RCLONEOPTS}" == "" ] || [ "${BACKUPMETHOD}" == "" ] || [ "${RESTOREMETHOD}" == "" ] || [ "${RSYNCRMDIR}" == "" ]
+then
+  source /storage/.config/cloud_sync.conf.defaults
+  if [ "${BACKUPPATH}" == "" ]
+  then
+    sed -i -e '$a\\nBACKUPPATH="'"${DEFAULT_BACKUPPATH}"'"' /storage/.config/cloud_sync.conf
+  fi
+ 
+  if [ "${RESTOREPATH}" == "" ]
+  then
+    sed -i -e '$a\\nRESTOREPATH="'"${DEFAULT_RESTOREPATH}"'"' /storage/.config/cloud_sync.conf
+  fi
+ 
+  if [ "${SYNCPATH}" == "" ]
+  then
+    sed -i -e '$a\\nSYNCPATH="'"${DEFAULT_SYNCPATH}"'"' /storage/.config/cloud_sync.conf
+  fi
+ 
+  if [ "${RCLONEOPTS}" == "" ]
+  then
+    sed -i -e '$a\\nRCLONEOPTS="'"${DEFAULT_RCLONEOPTS}"'"' /storage/.config/cloud_sync.conf
+  fi
+ 
+  if [ "${BACKUPMETHOD}" == "" ]
+  then
+    sed -i -e '$a\\nBACKUPMETHOD="'"${DEFAULT_BACKUPMETHOD}"'"' /storage/.config/cloud_sync.conf
+  fi
+ 
+  if [ "${RESTOREMETHOD}" == "" ]
+  then
+    sed -i -e '$a\\nRESTOREMETHOD="'"${DEFAULT_RESTOREMETHOD}"'"' /storage/.config/cloud_sync.conf
+  fi
+ 
+  if [ "${RSYNCRMDIR}" == "" ]
+  then
+    sed -i -e '$a\\nRSYNCRMDIR="'"${DEFAULT_RSYNCRMDIR}"'"' /storage/.config/cloud_sync.conf
+  fi
+  source /storage/.config/cloud_sync.conf
+fi
 
-echo "Backing up data from ${BACKUPPATH} to ${MOUNTPATH}/${SYNCPATH}" 2>&1
-rsync ${RSYNCOPTSBACKUP} --include-from="${CONFIGPATH}/rsync-rules.conf" ${BACKUPPATH}/ ${MOUNTPATH}/${SYNCPATH}/ 2>&1
+# backup to rclone remote
+if [ -e "/storage/.config/rclone/rclone.conf" ]
+then
+  # Determine remote to be used
+  REMOTENAME=`rclone listremotes | head -1`
+  
+  # Run backup
+  echo -e "=> ${OS_NAME} CLOUD BACKUP UTILITY\n"
+  echo "Backing up data from ${BACKUPPATH} to ${REMOTENAME}${SYNCPATH}" 2>&1  
+  rclone ${BACKUPMETHOD} \
+    ${RCLONEOPTS} \
+    ${BACKUPPATH}/ ${REMOTENAME}${SYNCPATH}/
+  if [ "${RSYNCRMDIR}" == "yes" ] 
+  then
+    rclone rmdirs ${REMOTENAME}${SYNCPATH}/ --leave-root
+  fi
+fi
 
-echo "Unmounting ${MOUNTPATH}" 2>&1
-rclonectl unmount ${MOUNTPATH} 2>&1
-sleep 3
+echo "Backup to ${REMOTENAME}${SYNCPATH} complete!"
+sleep 1.5
 clear

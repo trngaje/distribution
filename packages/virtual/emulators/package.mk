@@ -12,58 +12,72 @@ PKG_EMUS="amiberry flycast-sa gzdoom-sa hatarisa hypseus-singe moonlight mupen64
 
 PKG_RETROARCH="core-info libretro-database retroarch retroarch-assets retroarch-joypads retroarch-overlays slang-shaders"
 
-LIBRETRO_CORES="81-lr a5200-lr arduous-lr atari800-lr beetle-gba-lr beetle-lynx-lr beetle-ngp-lr beetle-pce-lr beetle-pce-fast-lr     \
-                beetle-pcfx-lr bsnes-mercury-performance-lr beetle-supafaust-lr beetle-supergrafx-lr beetle-vb-lr beetle-wswan-lr     \
-                bluemsx-lr cap32-lr crocods-lr daphne-lr dosbox-svn-lr dosbox-pure-lr duckstation-lr duckstation-sa easyrpg-lr        \
-                emuscv-lr fake08-lr fbalpha2012-lr fbalpha2019-lr fbneo-lr fceumm-lr flycast2021-lr fmsx-lr freechaf-lr freeintv-lr   \
-                freej2me-lr fuse-lr gambatte-lr gearboy-lr gearcoleco-lr gearsystem-lr genesis-plus-gx-lr genesis-plus-gx-wide-lr     \
-                gw-lr handy-lr hatari-lr idtech-lr jaxe-lr mame-lr mame2003-plus-lr mame2010-lr melonds-lr mesen-lr       \
-                mgba-lr minivmac-lr  mojozork-lr mu-lr mupen64plus-lr mupen64plus-nx-lr neocd_lr nestopia-lr np2kai-lr o2em-lr        \
-                opera-lr parallel-n64-lr pcsx_rearmed-lr picodrive-lr pokemini-lr potator-lr prosystem-lr puae-lr puae2021-lr         \
-                px68k-lr quasi88-lr quicknes-lr race-lr same_cdi-lr sameboy-lr sameduck-lr scummvm-lr smsplus-gx-lr snes9x-lr         \
-                snes9x2002-lr snes9x2005_plus-lr snes9x2010-lr stella-lr swanstation-lr tgbdual-lr theodore-lr tic80-lr uzem-lr       \
-                vba-next-lr vbam-lr vecx-lr vice-lr vircon32-lr virtualjaguar-lr xmil-lr yabasanshiro-lr"
+LIBRETRO_CORES="81-lr a5200-lr arduous-lr atari800-lr beetle-gba-lr beetle-lynx-lr beetle-ngp-lr beetle-pce-lr beetle-pce-fast-lr    \
+                beetle-pcfx-lr bsnes-mercury-accuracy-lr bsnes-mercury-balanced-lr bsnes-mercury-performance-lr beetle-supafaust-lr  \
+                beetle-supergrafx-lr beetle-vb-lr beetle-wswan-lr bluemsx-lr cap32-lr crocods-lr daphne-lr doublecherrygb-lr         \
+                dosbox-svn-lr dosbox-pure-lr duckstation-lr duckstation-sa easyrpg-lr emuscv-lr fake08-lr fbalpha2012-lr             \
+                fbalpha2019-lr fbneo-lr fceumm-lr flycast2021-lr fmsx-lr freechaf-lr freeintv-lr freej2me-lr fuse-lr gambatte-lr     \
+                gearboy-lr gearcoleco-lr gearsystem-lr genesis-plus-gx-lr genesis-plus-gx-wide-lr gw-lr handy-lr hatari-lr idtech-lr \
+                jaxe-lr mame-lr mame2003-plus-lr mame2010-lr mame2015-lr melonds-lr melonds-ds-lr mesen-lr mgba-lr minivmac-lr       \
+                mojozork-lr mu-lr mupen64plus-lr mupen64plus-nx-lr neocd_lr nestopia-lr np2kai-lr o2em-lr opera-lr parallel-n64-lr   \
+                pcsx_rearmed-lr picodrive-lr pokemini-lr potator-lr prosystem-lr puae-lr puae2021-lr px68k-lr quasi88-lr quicknes-lr \
+                race-lr same_cdi-lr sameboy-lr sameduck-lr scummvm-lr smsplus-gx-lr snes9x-lr snes9x2002-lr snes9x2005_plus-lr       \
+                snes9x2010-lr stella-lr swanstation-lr tgbdual-lr theodore-lr tic80-lr uzem-lr vba-next-lr vbam-lr vecx-lr vice-lr   \
+                vircon32-lr virtualjaguar-lr xmil-lr yabasanshiro-lr"
 
 ### Emulators or cores for specific devices
 case "${DEVICE}" in
   AMD64)
     [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="wine"
-    PKG_EMUS+=" cemu-sa dolphin-sa lime3ds-sa mednafen melonds-sa minivmacsa mupen64plus-sa kronos-sa nanoboyadvance-sa pcsx2-sa     \
+    PKG_EMUS+=" cemu-sa dolphin-sa lime3ds-sa mednafen melonds-sa minivmacsa mupen64plus-sa nanoboyadvance-sa pcsx2-sa     \
                rpcs3-sa scummvmsa vita3k-sa xemu-sa"
-    LIBRETRO_CORES+=" beetle-psx-lr beetle-saturn-lr bsnes-lr bsnes-hd-lr desmume-lr dolphin-lr flycast-lr lrps2-lr ppsspp-lr        \
-                     kronos-lr"
+    LIBRETRO_CORES+=" beetle-psx-lr beetle-saturn-lr bsnes-lr bsnes-hd-lr desmume-lr dolphin-lr flycast-lr lrps2-lr"
   ;;
-  RK3588*)
+  RK3588)
     [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr wine"
     PKG_EMUS+=" aethersx2-sa box64 dolphin-sa drastic-sa mednafen melonds-sa portmaster scummvmsa supermodel-sa yabasanshiro-sa"
-    LIBRETRO_CORES+=" beetle-psx-lr beetle-saturn-lr bsnes-lr bsnes-hd-lr dolphin-lr pcsx_rearmed-lr uae4arm"
+    LIBRETRO_CORES+=" beetle-psx-lr beetle-saturn-lr bsnes-lr bsnes-hd-lr dolphin-lr flycast-lr geolith-lr panda3ds-lr pcsx_rearmed-lr uae4arm"
     PKG_RETROARCH+=" retropie-shaders"
   ;;
   RK3399)
     [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr"
     PKG_EMUS+=" aethersx2-sa box64 dolphin-sa drastic-sa mednafen melonds-sa nanoboyadvance-sa portmaster scummvmsa yabasanshiro-sa"
-    LIBRETRO_CORES+=" beetle-psx-lr bsnes-lr bsnes-hd-lr dolphin-lr flycast-lr pcsx_rearmed-lr uae4arm"
+    LIBRETRO_CORES+=" beetle-psx-lr bsnes-lr bsnes-hd-lr dolphin-lr geolith-lr flycast-lr pcsx_rearmed-lr uae4arm"
     PKG_RETROARCH+=" retropie-shaders"
   ;;
-  RK356*)
-    [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr"
+  RK3566*)
+    [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr wine"
     PKG_DEPENDS_TARGET+=" common-shaders glsl-shaders"
-    PKG_EMUS+=" box64 drastic-sa mednafen portmaster scummvmsa yabasanshiro-sa advancemame-sa openmsx-sa"
-    LIBRETRO_CORES+=" flycast-lr uae4arm"
+    PKG_EMUS+=" box64 dolphin-sa drastic-sa mednafen melonds-sa portmaster scummvmsa yabasanshiro-sa advancemame-sa openmsx-sa advanced_drastic-sa"
+    LIBRETRO_CORES+=" dolphin-lr flycast-lr geolith-lr uae4arm"
     PKG_RETROARCH+=" retropie-shaders"
   ;;
-  S922X*)
+  S922X)
     [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 pcsx_rearmed-lr wine"
-    PKG_EMUS+=" aethersx2-sa box64 dolphin-sa drastic-sa portmaster yabasanshiro-sa"
-    LIBRETRO_CORES+=" beetle-psx-lr bsnes-lr bsnes-hd-lr dolphin-lr flycast-lr uae4arm"
+    PKG_EMUS+=" aethersx2-sa box64 dolphin-sa drastic-sa portmaster scummvmsa yabasanshiro-sa"
+    LIBRETRO_CORES+=" beetle-psx-lr bsnes-lr bsnes-hd-lr dolphin-lr geolith-lr flycast-lr uae4arm"
     [ "${USE_MALI}" != "no" ] && PKG_EMUS+=" lime3ds-sa"
     PKG_RETROARCH+=" retropie-shaders"
   ;;
-  RK3326*)
+  RK3326)
     [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr"
     PKG_DEPENDS_TARGET+=" common-shaders glsl-shaders"
-    PKG_EMUS+=" box64 drastic-sa mednafen portmaster scummvmsa yabasanshiro-sa"
-    LIBRETRO_CORES+=" flycast-lr flycast2021-lr uae4arm"
+    PKG_EMUS+=" box64 drastic-sa mednafen portmaster scummvmsa yabasanshiro-sa advanced_drastic-sa"
+    LIBRETRO_CORES+=" flycast-lr flycast2021-lr geolith-lr uae4arm"
+    PKG_RETROARCH+=" retropie-shaders"
+  ;;
+  H700)
+    [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr"
+    PKG_DEPENDS_TARGET+=" common-shaders glsl-shaders"
+    PKG_EMUS+=" box64 drastic-sa mednafen portmaster scummvmsa yabasanshiro-sa advanced_drastic-sa"
+    LIBRETRO_CORES+=" flycast-lr flycast2021-lr geolith-lr uae4arm"
+    PKG_RETROARCH+=" retropie-shaders"
+  ;;
+  SD865)
+    [ "${ENABLE_32BIT}" == "true" ] && EMUS_32BIT="box86 desmume-lr gpsp-lr pcsx_rearmed-lr wine"
+    PKG_EMUS+=" aethersx2-sa box64 dolphin-sa drastic-sa lime3ds-sa mednafen melonds-sa portmaster scummvmsa supermodel-sa \
+               yabasanshiro-sa xemu-sa"
+    LIBRETRO_CORES+=" beetle-psx-lr beetle-saturn-lr bsnes-lr bsnes-hd-lr dolphin-lr flycast-lr geolith-lr pcsx_rearmed-lr uae4arm"
     PKG_RETROARCH+=" retropie-shaders"
   ;;
 esac
@@ -120,15 +134,19 @@ makeinstall_target() {
 
   ### Nintendo 3DS
   case ${DEVICE} in
-    S922X*)
+    AMD64|S922X|SD865)
       add_emu_core 3ds lime3ds lime3ds-sa true
+      add_es_system 3ds
+    ;;
+    *)
+      add_emu_core 3ds retroarch panda3ds true
       add_es_system 3ds
     ;;
   esac
 
   ### Commodore Amiga
   case ${DEVICE} in
-    RK35*|RK3326|RK3399)
+    RK35*|RK3326|RK3399|H700|SD865)
       add_emu_core amiga retroarch puae2021 true
       add_emu_core amiga retroarch puae false
     ;;
@@ -147,7 +165,7 @@ makeinstall_target() {
 
   ### Commodore Amiga CD32
   case ${DEVICE} in
-    RK35*|RK3326|RK3399)
+    RK35*|RK3326|RK3399|H700|SD865)
       add_emu_core amigacd32 retroarch puae2021 true
       add_emu_core amigacd32 retroarch puae false
     ;;
@@ -212,11 +230,7 @@ makeinstall_target() {
 
   ## Sammy Atomiswave
   case ${DEVICE} in
-    RK3588*)
-      add_emu_core atomiswave retroarch flycast2021 true
-      add_emu_core atomiswave flycast flycast-sa false
-    ;;
-    RK3566*)
+    RK35*)
       add_emu_core atomiswave retroarch flycast2021 true
       add_emu_core atomiswave retroarch flycast false
       add_emu_core atomiswave flycast flycast-sa false
@@ -226,7 +240,7 @@ makeinstall_target() {
       add_emu_core atomiswave flycast flycast-sa false
       add_emu_core atomiswave retroarch flycast true
     ;;
-    S922X)
+    S922X|SD865)
       add_emu_core atomiswave retroarch flycast2021 false
       add_emu_core atomiswave flycast flycast-sa true
       add_emu_core atomiswave retroarch flycast false
@@ -315,11 +329,7 @@ makeinstall_target() {
 
   ### Sega Dreamcast
   case ${DEVICE} in
-    RK3588*)
-      add_emu_core dreamcast retroarch flycast2021 true
-      add_emu_core dreamcast flycast flycast-sa false
-    ;;
-    RK3566*)
+    RK35*)
       add_emu_core dreamcast retroarch flycast2021 true
       add_emu_core dreamcast retroarch flycast false
       add_emu_core dreamcast flycast flycast-sa false
@@ -329,7 +339,7 @@ makeinstall_target() {
       add_emu_core dreamcast flycast flycast-sa false
       add_emu_core dreamcast retroarch flycast true
     ;;
-    S922X)
+    S922X|SD865)
       add_emu_core dreamcast retroarch flycast2021 false
       add_emu_core dreamcast flycast flycast-sa true
       add_emu_core dreamcast retroarch flycast false
@@ -352,7 +362,7 @@ makeinstall_target() {
   add_emu_core famicom retroarch quicknes false
   add_emu_core famicom retroarch mesen false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core famicom mednafen nes false
     ;;
   esac
@@ -364,7 +374,7 @@ makeinstall_target() {
   add_emu_core fds retroarch quicknes false
   add_emu_core fds retroarch mesen false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core fds mednafen nes false
     ;;
   esac
@@ -383,6 +393,7 @@ makeinstall_target() {
   ### iD Software game engines
   add_emu_core idtech retroarch idtech
   add_es_system idtech
+  install_script "Create id Tech Launchers.sh"
 
   ### Apple Macintosh Plus
   add_emu_core macintosh retroarch minivmac true
@@ -400,8 +411,9 @@ makeinstall_target() {
   add_emu_core gb retroarch tgbdual false
   add_emu_core gb retroarch mgba false
   add_emu_core gb retroarch vbam false
+  add_emu_core gb retroarch DoubleCherryGB false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core gb mednafen gb false
     ;;
   esac
@@ -414,8 +426,9 @@ makeinstall_target() {
   add_emu_core gbh retroarch tgbdual false
   add_emu_core gbh retroarch mgba false
   add_emu_core gbh retroarch vbam false
+  add_emu_core gbh retroarch DoubleCherryGB false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core gbh mednafen gb false
     ;;
   esac
@@ -428,7 +441,7 @@ makeinstall_target() {
   add_emu_core gba retroarch vba_next false
   add_emu_core gba retroarch beetle_gba false
   case ${DEVICE} in
-    RK356*|RK3326)
+    RK356*|RK3326|H700|SD865)
       add_emu_core gba retroarch gpsp false
     ;;
     RK3399|RK3588*)
@@ -440,7 +453,7 @@ makeinstall_target() {
     ;;
   esac
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core gba mednafen gba false
     ;;
   esac
@@ -453,7 +466,7 @@ makeinstall_target() {
   add_emu_core gbah retroarch vba_next false
   add_emu_core gbah retroarch beetle_gba false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core gbah mednafen gba false
     ;;
   esac
@@ -466,8 +479,9 @@ makeinstall_target() {
   add_emu_core gbc retroarch tgbdual false
   add_emu_core gbc retroarch mgba false
   add_emu_core gbc retroarch vbam false
+  add_emu_core gbc retroarch DoubleCherryGB false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core gbc mednafen gb false
     ;;
   esac
@@ -480,8 +494,9 @@ makeinstall_target() {
   add_emu_core gbch retroarch tgbdual false
   add_emu_core gbch retroarch mgba false
   add_emu_core gbch retroarch vbam false
+  add_emu_core gbch retroarch DoubleCherryGB false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core gbch mednafen gb false
     ;;
   esac
@@ -494,7 +509,7 @@ makeinstall_target() {
       add_emu_core gamecube retroarch dolphin false
       add_es_system gamecube
     ;;
-    S922X*|RK3399|RK3588*)
+    S922X|RK3399|RK35*|SD865)
       add_emu_core gamecube dolphin dolphin-sa-gc true
       add_emu_core gamecube retroarch dolphin false
       add_es_system gamecube
@@ -508,7 +523,7 @@ makeinstall_target() {
       add_emu_core wii retroarch dolphin false
       add_es_system wii
     ;;
-    S922X*|RK3399|RK3588*)
+    S922X|RK3399|RK35*|SD865)
       add_emu_core wii dolphin dolphin-sa-wii true
       add_emu_core wii retroarch dolphin false
       add_es_system wii
@@ -530,7 +545,7 @@ makeinstall_target() {
   add_emu_core gamegear retroarch picodrive false
   add_emu_core gamegear retroarch smsplus false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700)
       add_emu_core gamegear mednafen gg false
     ;;
   esac
@@ -542,7 +557,7 @@ makeinstall_target() {
   add_emu_core ggh retroarch picodrive false
   add_emu_core ggh retroarch smsplus false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core ggh mednafen gg false
     ;;
   esac
@@ -564,7 +579,7 @@ makeinstall_target() {
   add_emu_core atarilynx retroarch handy true
   add_emu_core atarilynx retroarch beetle_lynx false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core atarilynx mednafen lynx false
     ;;
   esac
@@ -590,7 +605,7 @@ makeinstall_target() {
   add_emu_core megadrive-japan retroarch genesis_plus_gx_wide false
   add_emu_core megadrive-japan retroarch picodrive
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core megadrive-japan mednafen md false
     ;;
   esac
@@ -598,7 +613,7 @@ makeinstall_target() {
 
   ### Sega Model 3
   case ${DEVICE} in
-    RK3588)
+    RK3588|SD865)
       add_emu_core segamodel3 supermodel supermodel-sa true
       add_es_system segamodel3
     ;;
@@ -613,7 +628,7 @@ makeinstall_target() {
   add_emu_core snesmsu1 retroarch snes9x true
   add_emu_core snesmsu1 retroarch beetle_supafaust false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core snesmsu1 mednafen snes_faust false
     ;;
   esac
@@ -632,11 +647,7 @@ makeinstall_target() {
 
   ### Sega Naomi
   case ${DEVICE} in
-    RK3588*)
-      add_emu_core naomi retroarch flycast2021 true
-      add_emu_core naomi flycast flycast-sa false
-    ;;
-    RK3566*)
+    RK35*)
       add_emu_core naomi retroarch flycast2021 true
       add_emu_core naomi retroarch flycast false
       add_emu_core naomi flycast flycast-sa false
@@ -646,7 +657,7 @@ makeinstall_target() {
       add_emu_core naomi flycast flycast-sa false
       add_emu_core naomi retroarch flycast true
     ;;
-    S922X)
+    S922X|SD865)
       add_emu_core naomi retroarch flycast2021 false
       add_emu_core naomi flycast flycast-sa true
       add_emu_core naomi retroarch flycast false
@@ -667,6 +678,11 @@ makeinstall_target() {
   add_emu_core neogeo retroarch mame2010 false
   add_emu_core neogeo retroarch mame2015 false
   add_emu_core neogeo retroarch mame false
+  case ${TARGET_ARCH} in
+    aarch64)
+      add_emu_core neogeo retroarch geolith false
+    ;;
+  esac
   add_es_system neogeo
 
   ### SNK NeoCD
@@ -678,7 +694,7 @@ makeinstall_target() {
   add_emu_core ngp retroarch beetle_ngp true
   add_emu_core ngp retroarch race false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core ngp mednafen ngp false
     ;;
   esac
@@ -688,7 +704,7 @@ makeinstall_target() {
   add_emu_core ngpc retroarch beetle_ngp true
   add_emu_core ngpc retroarch race false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core ngpc mednafen ngp false
     ;;
   esac
@@ -705,29 +721,36 @@ makeinstall_target() {
   case ${DEVICE} in
     AMD64)
       add_emu_core nds retroarch melonds true
+      add_emu_core nds retroarch melondsds false
       add_emu_core nds retroarch desmume false
       add_emu_core nds melonds melonds-sa false
     ;;
-    RK3399)
-      add_emu_core nds drastic drastic-sa true
-      add_emu_core nds retroarch melonds false
-      add_emu_core nds melonds melonds-sa false
-      add_emu_core nds retroarch desmume false
-    ;;
-    RK3588*)
+    RK3399|RK3*)
+      add_emu_core nds advanced_drastic advanced_drastic-sa true
       add_emu_core nds drastic drastic-sa false
-      add_emu_core nds retroarch melonds true
+      add_emu_core nds retroarch melonds false
+      add_emu_core nds retroarch melondsds false
       add_emu_core nds melonds melonds-sa false
       add_emu_core nds retroarch desmume false
     ;;
-    RK3*)
+    RK3326|H700)
+      add_emu_core nds advanced_drastic advanced_drastic-sa true
       add_emu_core nds drastic drastic-sa true
       add_emu_core nds retroarch melonds false
+      add_emu_core nds retroarch melondsds false
+      add_emu_core nds retroarch desmume false
+    ;;
+    SD865)
+      add_emu_core nds drastic drastic-sa false
+      add_emu_core nds retroarch melonds false
+      add_emu_core nds retroarch melondsds false
+      add_emu_core nds melonds melonds-sa true
       add_emu_core nds retroarch desmume false
     ;;
     *)
       add_emu_core nds drastic drastic-sa true
       add_emu_core nds retroarch melonds false
+      add_emu_core nds retroarch melondsds false
     ;;
   esac
   add_es_system nds
@@ -738,7 +761,7 @@ makeinstall_target() {
   add_emu_core nes retroarch quicknes false
   add_emu_core nes retroarch mesen false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core nes mednafen nes false
     ;;
   esac
@@ -750,7 +773,7 @@ makeinstall_target() {
   add_emu_core nesh retroarch quicknes false
   add_emu_core nesh retroarch mesen false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core nesh mednafen nesh false
     ;;
   esac
@@ -777,7 +800,7 @@ makeinstall_target() {
   add_emu_core pcengine retroarch beetle_pce false
   add_emu_core pcengine retroarch beetle_supergrafx false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core pcengine mednafen pce false
       add_emu_core pcengine mednafen pce_fast false
     ;;
@@ -789,7 +812,7 @@ makeinstall_target() {
   add_emu_core pcenginecd retroarch beetle_pce false
   add_emu_core pcenginecd retroarch beetle_supergrafx false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core pcenginecd mednafen pce false
       add_emu_core pcenginecd mednafen pce_fast false
     ;;
@@ -799,7 +822,7 @@ makeinstall_target() {
   ### NEC PC-FX
   add_emu_core pcfx retroarch beetle_pcfx true
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core pcfx mednafen pcfx false
     ;;
   esac
@@ -816,11 +839,11 @@ makeinstall_target() {
       add_emu_core psx retroarch beetle_psx true
       add_emu_core psx mednafen psx false
     ;;
-    S922X*)
+    S922X)
       add_emu_core psx retroarch pcsx_rearmed true
       add_emu_core psx retroarch beetle_psx false
     ;;
-    RK3588*)
+    RK3588*|SD865)
       add_emu_core psx retroarch pcsx_rearmed32 true
       add_emu_core psx retroarch pcsx_rearmed false
       add_emu_core psx retroarch beetle_psx false
@@ -839,6 +862,10 @@ makeinstall_target() {
       add_emu_core psx retroarch pcsx_rearmed32 true
       add_emu_core psx retroarch pcsx_rearmed false
     ;;
+    H700)
+      add_emu_core psx retroarch pcsx_rearmed32 true
+      add_emu_core psx retroarch pcsx_rearmed false
+    ;;
   esac
   add_emu_core psx duckstation duckstation-sa false
   add_emu_core psx retroarch duckstation false
@@ -853,7 +880,7 @@ makeinstall_target() {
       add_es_system ps2
       install_script "Start PCSX2.sh"
     ;;
-    RK3588*|S922X|RK3399)
+    RK3588*|S922X|RK3399|SD865)
       add_emu_core ps2 aethersx2 aethersx2-sa true
       add_es_system ps2
       install_script "Start AetherSX2.sh"
@@ -871,11 +898,6 @@ makeinstall_target() {
 
   ### Sony Playstation Portable
   add_emu_core psp ppsspp ppsspp-sa true
-  case ${DEVICE} in
-    AMD64)
-      add_emu_core psp retroarch ppsspp false
-    ;;
-  esac
   add_es_system psp
   install_script "Start PPSSPP.sh"
 
@@ -885,8 +907,8 @@ makeinstall_target() {
   add_es_system pspminis
 
   ### Sony Playstation Vita
-  case ${TARGET_ARCH} in
-    x86_64)
+  case ${DEVICE} in
+    AMD64)
       add_emu_core psvita vita3k vita3k-sa true
       add_es_system psvita
     ;;
@@ -897,15 +919,8 @@ makeinstall_target() {
   add_es_system pokemini
 
   ### ScummVM
-  case ${DEVICE} in
-    S922X*)
-      add_emu_core scummvm retroarch scummvm true
-    ;;
-    *)
-      add_emu_core scummvm scummvmsa scummvm true
-      add_emu_core scummvm retroarch scummvm false
-    ;;
-  esac
+  add_emu_core scummvm scummvmsa scummvm true
+  add_emu_core scummvm retroarch scummvm false
   add_es_system scummvm
   install_script "Start ScummVM.sh"
 
@@ -932,7 +947,7 @@ makeinstall_target() {
   add_emu_core genesis retroarch genesis_plus_gx_wide false
   add_emu_core genesis retroarch picodrive false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core genesis mednafen md false
     ;;
   esac
@@ -943,7 +958,7 @@ makeinstall_target() {
   add_emu_core genh retroarch genesis_plus_gx_wide false
   add_emu_core genh retroarch picodrive false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core genh mednafen md false
     ;;
   esac
@@ -955,7 +970,7 @@ makeinstall_target() {
   add_emu_core mastersystem retroarch picodrive false
   add_emu_core mastersystem retroarch smsplus false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core mastersystem mednafen sms false
     ;;
   esac
@@ -966,7 +981,7 @@ makeinstall_target() {
   add_emu_core megadrive retroarch genesis_plus_gx_wide false
   add_emu_core megadrive retroarch picodrive false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core megadrive mednafen md false
     ;;
   esac
@@ -983,9 +998,7 @@ makeinstall_target() {
       add_emu_core saturn retroarch yabasanshiro false
     ;;
     x86_64)
-      add_emu_core saturn kronos kronos-sa false
       add_emu_core saturn retroarch yabasanshiro true
-      add_emu_core saturn retroarch kronos false
     ;;
   esac
   case ${DEVICE} in
@@ -993,23 +1006,17 @@ makeinstall_target() {
       add_emu_core saturn retroarch beetle_saturn false
       add_emu_core saturn mednafen ss false
   ;;
-    RK358*)
+    RK358*|SD865)
       add_emu_core saturn retroarch beetle_saturn false
+      add_emu_core saturn mednafen ss false
   ;;
   esac
   add_es_system saturn
 
   ### Sega ST-V
   case ${DEVICE} in
-    RK358*)
-      add_emu_core st-v retroarch beetle_saturn true
-      add_emu_core st-v mednafen ss false
-    ;;
-    AMD64)
-      add_emu_core saturn kronos kronos-sa true
-      add_emu_core st-v retroarch beetle_saturn false
-      add_emu_core st-v retroarch kronos false
-      add_emu_core st-v mednafen ss false
+    RK3588*|AMD64|SD865)
+      add_emu_core st-v mednafen ss true
     ;;
   esac
   add_es_system st-v
@@ -1025,8 +1032,8 @@ makeinstall_target() {
   add_es_system x1
 
   ### Microsoft XBox
-  case ${TARGET_ARCH} in
-    x86_64)
+  case ${DEVICE} in
+    AMD64|SD865)
       add_emu_core xbox xemu xemu-sa true
       add_es_system xbox
       install_script "Start Xemu.sh"
@@ -1045,7 +1052,7 @@ makeinstall_target() {
   add_emu_core supergrafx retroarch beetle_supergrafx
   add_emu_core supergrafx retroarch beetle_pce
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core supergrafx mednafen pce false
       add_emu_core supergrafx mednafen pce_fast false
     ;;
@@ -1058,9 +1065,11 @@ makeinstall_target() {
   add_emu_core snes retroarch snes9x2002 false
   add_emu_core snes retroarch snes9x2005_plus false
   add_emu_core snes retroarch beetle_supafaust false
+  add_emu_core snes retroarch bsnes_mercury_accuracy false
+  add_emu_core snes retroarch bsnes_mercury_balanced false
   add_emu_core snes retroarch bsnes_mercury_performance false
   case ${DEVICE} in
-    AMD64|S922X*|RK3399|RK358*)
+    AMD64|S922X|RK3399|RK3588|SD865)
       add_emu_core snes retroarch bsnes false
       add_emu_core snes retroarch bsnes_hd_beta false
 	;;
@@ -1070,7 +1079,7 @@ makeinstall_target() {
       add_emu_core snes mednafen snes_faust false
       add_emu_core snes mednafen snes false
     ;;
-    RK33*|RK3588*|RK356*)
+    RK33*|RK35*|SD865)
       add_emu_core snes mednafen snes_faust false
 	;;
   esac
@@ -1082,9 +1091,11 @@ makeinstall_target() {
   add_emu_core snesh retroarch snes9x2002 false
   add_emu_core snesh retroarch snes9x2005_plus false
   add_emu_core snesh retroarch beetle_supafaust false
+  add_emu_core snes retroarch bsnes_mercury_accuracy false
+  add_emu_core snes retroarch bsnes_mercury_balanced false
   add_emu_core snesh retroarch bsnes_mercury_performance false
   case ${DEVICE} in
-    AMD64|S922X*|RK3399|RK358*)
+    AMD64|S922X|RK3399|RK3588|SD865)
       add_emu_core snesh retroarch bsnes false
       add_emu_core snesh retroarch bsnes_hd_beta false
 	;;
@@ -1094,7 +1105,7 @@ makeinstall_target() {
       add_emu_core snesh mednafen snes false
       add_emu_core snesh mednafen snes_faust false
     ;;
-    RK33*|RK3588*|RK356*)
+    RK3*|SD865)
       add_emu_core snesh mednafen snes_faust false
 	;;
   esac
@@ -1106,9 +1117,11 @@ makeinstall_target() {
   add_emu_core sfc retroarch snes9x2002 false
   add_emu_core sfc retroarch snes9x2005_plus false
   add_emu_core sfc retroarch beetle_supafaust false
+  add_emu_core snes retroarch bsnes_mercury_accuracy false
+  add_emu_core snes retroarch bsnes_mercury_balanced false
   add_emu_core sfc retroarch bsnes_mercury_performance false
   case ${DEVICE} in
-    AMD64|S922X*|RK3399|RK358*)
+    AMD64|S922X|RK3399|RK358*|SD865)
       add_emu_core sfc retroarch bsnes false
       add_emu_core sfc retroarch bsnes_hd_beta false
 	;;
@@ -1118,7 +1131,7 @@ makeinstall_target() {
       add_emu_core sfc mednafen snes false
       add_emu_core sfc mednafen snes_faust false
     ;;
-    RK33*|RK3588*|RK356*)
+    RK3*|SD865)
       add_emu_core snes mednafen snes_faust false
 	;;
   esac
@@ -1148,7 +1161,7 @@ makeinstall_target() {
   add_emu_core tg16 retroarch beetle_pce false
   add_emu_core tg16 retroarch beetle_supergrafx false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core tg16 mednafen pce false
       add_emu_core tg16 mednafen pce_fast false
     ;;
@@ -1160,7 +1173,7 @@ makeinstall_target() {
   add_emu_core tg16cd retroarch beetle_pce false
   add_emu_core tg16cd retroarch beetle_supergrafx false
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core tg16cd mednafen pce false
       add_emu_core tg16cd mednafen pce_fast false
     ;;
@@ -1186,7 +1199,7 @@ makeinstall_target() {
   ### Nintendo VirtualBoy
   add_emu_core virtualboy retroarch beetle_vb true
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core virtualboy mednafen vb false
     ;;
   esac
@@ -1195,7 +1208,7 @@ makeinstall_target() {
   ### Bandai Wonderswan
   add_emu_core wonderswan retroarch beetle_wswan true
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core wonderswan mednafen wswan false
     ;;
   esac
@@ -1204,7 +1217,7 @@ makeinstall_target() {
   ### Bandai Wonderswan Color
   add_emu_core wonderswancolor retroarch beetle_wswan true
   case ${DEVICE} in
-    RK3399|AMD64|RK3326|RK3588*|RK356*)
+    RK3399|AMD64|RK3326|RK3588*|RK356*|H700|SD865)
       add_emu_core wonderswancolor mednafen wswan false
     ;;
   esac
@@ -1217,7 +1230,7 @@ makeinstall_target() {
   ### EPOCH/YENO Super Cassette Vision
   add_emu_core scv retroarch emuscv true
   add_es_system scv
-  
+
   ### Vircon32
   add_emu_core vircon32 retroarch vircon32 true
   add_es_system vircon32
@@ -1225,7 +1238,7 @@ makeinstall_target() {
   ### MO/TO Family
   add_emu_core moto retroarch theodore true
   add_es_system moto
-  
+
   ### Palm OS
   add_emu_core palm retroarch mu true
   add_es_system palm

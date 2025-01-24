@@ -2,12 +2,12 @@
 # Copyright (C) 2022-present JELOS (https://github.com/JustEnoughLinuxOS)
 
 PKG_NAME="beetle-psx-lr"
-PKG_VERSION="05fda4c7e4e98392aca86198644b0c0153369771"
+PKG_VERSION="3b6aa830f1345a588c6217f0bf8f5da2f8e08c29"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://git.libretro.com/libretro/beetle-psx-libretro"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_SHORTDESC="Fork of Mednafen PSX"
+PKG_LONGDESC="Fork of Mednafen PSX"
 PKG_TOOLCHAIN="make"
 
 if [ ! "${OPENGL}" = "no" ]; then

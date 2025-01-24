@@ -31,9 +31,6 @@
     BOOTLOADER="u-boot"
     PARTITION_TABLE="msdos"
 
-  # Additional kernel make parameters (for example to specify the u-boot loadaddress)
-    KERNEL_MAKE_EXTRACMD+="$(while read i; do eval $i; for dtb in ${DTB[@]}; do echo amlogic/${dtb}.dtb; done; done <<< $(grep DTB= ${PROJECT_DIR}/${PROJECT}/bootloader/mkimage))"
-
   # Define the CPU
     HW_CPU="Amlogic S922X"
 
@@ -47,7 +44,11 @@
     GRAPHIC_DRIVERS="panfrost"
 
   # OpenGL(X) implementation to use (mesa / no)
-    OPENGL="mesa"
+    if [ "${USE_MALI}" != "no" ]; then
+      OPENGL=""
+    else
+      OPENGL="mesa"
+    fi
 
   # OpenGL-ES implementation to use (mesa / no)
     OPENGLES="mesa"
@@ -66,17 +67,24 @@
       VULKAN_SUPPORT="no"
     fi
 
-  # Displayserver to use (weston / x11 / no)
+  # Displayserver to use (wl / x11 / no)
     DISPLAYSERVER="wl"
 
   # Windowmanager to use (weston / swaywm-env / no)
-    WINDOWMANAGER="weston11"
+    if [ "${USE_MALI}" != "no" ]; then
+      WINDOWMANAGER="weston11"
+    else
+      WINDOWMANAGER="swaywm-env"
+    fi
   
   # kernel serial console
     EXTRA_CMDLINE="rootwait quiet systemd.debug_shell=ttyAML0 console=ttyAML0,115200n8 console=tty0 no_console_suspend net.ifnames=0 consoleblank=0 video=HDMI-A-1:1920x1080@60"
 
+  # build and install rocknix joypad driver (yes / no)
+    ROCKNIX_JOYPAD="yes"
+
   # additional packages to install
-  #  ADDITIONAL_PACKAGES=""
+    ADDITIONAL_PACKAGES=""
 
   # additional Firmware to use ( )
   # Space separated list is supported,
@@ -91,7 +99,7 @@
   # for a list of additional drivers see packages/linux-drivers
   # Space separated list is supported,
   # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-    ADDITIONAL_DRIVERS="RTL8812AU RTL8821AU RTL8821CU RTL88x2BU"
+    ADDITIONAL_DRIVERS="RTL8812AU RTL8821AU RTL8821CU"
     
     if [ "${USE_MALI}" != "no" ]; then
       ADDITIONAL_DRIVERS+=" mali-bifrost"
@@ -108,7 +116,4 @@
     fi
    
   # Some devices have internal storage.
-    INSTALLER_SUPPORT="yes"
-
-  # ROCKNIX Subdevices (supported devices: Odroid_GOU Odroid_N2 Odroid_N2L)
-    SUBDEVICES="Odroid_GOU Odroid_N2 Odroid_N2L"
+    INSTALLER_SUPPORT="no"

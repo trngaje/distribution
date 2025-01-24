@@ -3,16 +3,14 @@
 # Copyright (C) 2023 JELOS (https://github.com/JustEnoughLinuxOS)
 
 PKG_NAME="emulationstation"
-PKG_VERSION="be669d916e9a3f393cf63c57929daf796ddec80d"
+PKG_VERSION="3dcca5951701535aee4a0514b7b54fa5599617e3"
 PKG_GIT_CLONE_BRANCH="main"
-PKG_REV="1"
-PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="https://github.com/ROCKNIX/emulationstation"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="boost toolchain SDL2 freetype curl freeimage bash rapidjson SDL2_mixer fping p7zip alsa vlc drm_tool pugixml"
 PKG_NEED_UNPACK="busybox"
-PKG_SHORTDESC="Emulationstation emulator frontend"
+PKG_LONGDESC="Emulationstation emulator frontend"
 PKG_BUILD_FLAGS="-gold"
 GET_HANDLER_SUPPORT="git"
 PKG_PATCH_DIRS+="${DEVICE}"
@@ -41,6 +39,13 @@ if [ "${GRAPHIC_DRIVERS}" = "panfrost" ] && [ ! "${DEVICE}" = "RK3588" ]; then
   PKG_CMAKE_OPTS_TARGET+=" -DPANFROST=1"
 fi
 
+# Enable Moonlight for everything but S922X Mali Vulkan
+if [ "${DEVICE}" = "S922X" -a "${USE_MALI}" != "no" ]; then
+  PKG_CMAKE_OPTS_TARGET+=" -DMOONLIGHT=0"
+else
+  PKG_CMAKE_OPTS_TARGET+=" -DMOONLIGHT=1"
+fi
+
 PKG_CMAKE_OPTS_TARGET+=" -DENABLE_EMUELEC=1 \
                          -DDISABLE_KODI=1 \
                          -DENABLE_FILEMANAGER=0 \
@@ -55,7 +60,7 @@ PKG_CMAKE_OPTS_TARGET+=" -DENABLE_EMUELEC=1 \
 # One time setup:
 # ---------------
 # cd ~
-# git clone https://github.com/JustEnoughLinuxOS/emulationstation.git
+# git clone https://github.com/ROCKNIX/emulationstation.git
 # cd emulationstation
 # git submodule update --init
 #
@@ -69,7 +74,7 @@ PKG_CMAKE_OPTS_TARGET+=" -DENABLE_EMUELEC=1 \
 #
 # Run from the device:
 # --------------------
-# Copy ./emulationstation binary found in build.JELOS-<device>.aarch64/emulationstation-*/.install_pkg/usr/bin/
+# Copy ./emulationstation binary found in build.ROCKNIX-<device>.aarch64/emulationstation-*/.install_pkg/usr/bin/
 # Via ssh, run emulationstation with
 # systemctl stop emustation
 # chmod +x ./emulationstation
@@ -97,7 +102,9 @@ pre_configure_target() {
   do
     if [ -z "${!key}" ]
     then
-      echo "WARNING: ${!key} not declared, will not build support."
+      echo "WARNING: ${key} not declared, will not build support."
+    else
+      echo "USING: ${key} = ${!key}"
     fi
   done
 
@@ -135,14 +142,14 @@ makeinstall_target() {
   if [ "${EMULATION_DEVICE}" = "no" ] || \
      [ "${BASE_ONLY}" = "true" ]
   then
-    cat <<EOF >${INSTALL}/etc/emulationstation/es_systems.cfg
+    cat <<EOF >${INSTALL}/usr/config/emulationstation/es_systems.cfg
 <?xml version="1.0" encoding="UTF-8"?>
 <systemList>
         <system>
                 <name>tools</name>
                 <fullname>Tools</fullname>
-                <manufacturer>JELOS</manufacturer>
-                <release>2021</release>
+                <manufacturer>ROCKNIX</manufacturer>
+                <release>2024</release>
                 <hardware>system</hardware>
                 <path>/storage/.config/modules</path>
                 <extension>.sh</extension>

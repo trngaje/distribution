@@ -16,12 +16,6 @@ function unmount() {
   umount -f "${1}" 2>/dev/null ||:
 }
 
-function add_readme() {
-  cat <<EOF >/storage/roms/README
-Use the \`Create Game Directories\` option in \`System Settings\` to create your game directories.
-EOF
-}
-
 function start_ms() {
   ### Entrypoint will be either games card found (external), or not found (internal).
   MOUNT_PATH="/storage/games-${1}"
@@ -101,7 +95,6 @@ then
 elif [[ "${MOUNT_GAMES}" == "0" ]]
 then
   start_ms internal
-  add_readme
   exit 0
 fi
 
@@ -115,7 +108,7 @@ function create_game_dirs() {
 }
 
 function load_modules() {
-  for MODULE in exfat vfat
+  for MODULE in exfat vfat ntfs ntfs3
   do
     lsmod | grep ${MODULE} >/dev/null 2>&1
     if [ ! $? = 0 ]
@@ -130,7 +123,7 @@ function mount_games() {
       MOUNT_PATH="/storage/games-external"
       FSTYPE=$(blkid -o export ${1} | awk 'BEGIN {FS="="} /TYPE/ {print $2}')
       case ${FSTYPE} in
-        ext4)
+        ext4 | btrfs)
           log $0 "Found supported partition for overlayfs."
           if [ -e "/storage/.ms_unsupported" ]
           then
@@ -171,14 +164,13 @@ function mount_games() {
       fi
       start_ms external
       create_game_dirs
-      add_readme
       exit 0
 }
 
 function find_games() {
   if /usr/bin/busybox mountpoint -q /storage
   then
-    for DEV in $(for dev in mmcblk[0-9] sd[a-z] nvme[0-9]; do blkid | grep ${dev} | awk 'BEGIN {FS=":"}; /ext4/ || /fat/ {print $1}' | sort -r; done)
+    for DEV in $(for dev in mmcblk[0-9] sd[a-z] nvme[0-9]; do blkid | grep ${dev} | awk 'BEGIN {FS=":"}; /ext4/ || /btrfs/ || /fat/ || /ntfs/ {print $1}' | sort -r; done)
     do
       ROOTDEV=$(echo ${DEV} | sed -e "s#^/.*/##g" -e "s#p[0-9].*\$##g")
       log $0 "Inspecting ${DEV}."
@@ -217,7 +209,6 @@ function find_games() {
     fi
     start_ms internal
     create_game_dirs
-    add_readme
     exit 0
   fi
 }

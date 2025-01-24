@@ -19,20 +19,13 @@
 ################################################################################
 
 PKG_NAME="dosbox-pure-lr"
-PKG_VERSION="87bf6365158325b76ff238c1ad8daf16a859bbe8"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="dd8d2989a652d56a7a1588b65a42cc58477638c2"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/schellingb/dosbox-pure"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="A port of DOSBox to libretro"
 PKG_LONGDESC="A port of DOSBox to libretro"
 GET_HANDLER_SUPPORT="git"
-PKG_IS_ADDON="no"
-PKG_AUTORECONF="no"
 PKG_TOOLCHAIN="make"
 PKG_PATCH_DIRS+="${DEVICE}"
 

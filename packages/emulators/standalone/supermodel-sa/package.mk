@@ -4,7 +4,6 @@
 PKG_NAME="supermodel-sa"
 PKG_LICENSE="GPLv3"
 PKG_SITE="https://github.com/DirtBagXon/model3emu-code-sinden"
-PKG_ARCH="any"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="${OPENGL} ${OPENGLES} glu toolchain SDL2 SDL2_net zlib"
 PKG_LONGDESC="Supermodel is a Sega Model 3 arcade emulator"
@@ -13,7 +12,7 @@ GET_HANDLER_SUPPORT="git"
 
 case ${TARGET_ARCH} in
   aarch64|arm)
-    PKG_VERSION="f94232e45e17f74ea510c7b754eec73529f06f58"
+    PKG_VERSION="cec451f3c3639622a372e0140ce3589ca616c84f"
     PKG_GIT_CLONE_BRANCH="arm"
   ;;
   *)

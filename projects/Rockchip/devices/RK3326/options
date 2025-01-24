@@ -29,38 +29,26 @@
     DEVICE_NAME="RK3326"
     KERNEL_TARGET="Image"
     BOOTLOADER="u-boot"
-    TRUST_LABEL="trust"
     PARTITION_TABLE="msdos"
-    DEVICE_DTB=("rk3326-anbernic-rg351m" "rk3326-anbernic-rg351v" "rk3326-gameconsole-r33s" "rk3326-gameconsole-r36s" "rk3326-odroid-go2" "rk3326-odroid-go2-v11" "rk3326-odroid-go3" "rk3326-powkiddy-rgb10" "rk3326-powkiddy-rgb20s"  "rk3326-magicx-xu10")
-    UBOOT_DTB="${DEVICE_DTB[0]}"
-    UBOOT_CONFIG="odroidgoa_defconfig"
-    PKG_SOC="px30"
-    PKG_DATAFILE="$PKG_RKBIN/bin/rk33/rk3326_ddr_333MHz_v1.15.bin"
-    PKG_LOADER="$PKG_RKBIN/bin/rk33/rk3326_miniloader_v1.28.bin"
-    PKG_BL31="$PKG_RKBIN/bin/rk33/rk3326_bl31_v1.22.elf"
-    PKG_LOAD_ADDR="0x00200000"
-    BOOT_INI=true
-    BOOT_PART="1:1"
-    EXT_LINUX_CONF=false
 
-  # Additional kernel make parameters (for example to specify the u-boot loadaddress)
-    KERNEL_MAKE_EXTRACMD=""
-    KERNEL_MAKE_EXTRACMD=" $(for DTB in "${DEVICE_DTB[@]}"; do echo -n "rockchip/${DTB}.dtb "; done)"
- 
   # Define the CPU
     HW_CPU="Rockchip RK3326"
 
   # Mali GPU family
     MALI_FAMILY="bifrost-g31"
-    GRAPHIC_DRIVERS="panfrost"
+    MALI_VERSION="g13p0"
+    GRAPHIC_DRIVERS="mali panfrost"
 
   # OpenGL(X) implementation to use (mesa / no)
     OPENGL="mesa"
 
+  # For maximum cross compatbility
+    PREFER_GLES="yes"
+
   # OpenGL-ES implementation to use (mesa / no)
     OPENGLES="mesa"
 
-  # Displayserver to use (weston / x11 / no)
+  # Displayserver to use (wl / no)
     DISPLAYSERVER="wl"
 
   # Windowmanager to use (weston / swaywm-env / no)
@@ -69,8 +57,15 @@
   # kernel serial console
     EXTRA_CMDLINE="quiet rootwait console=ttyFIQ0 console=tty0 ssh consoleblank=0 systemd.show_status=0 loglevel=0 panic=20"
 
+  # build and install rocknix joypad driver (yes / no)
+    ROCKNIX_JOYPAD="yes"
+
+  # build and install rocknix out-of-tree device trees and overlays (yes / no)
+    ROCKNIX_DEVICE_TREE_OVERLAYS="yes"
+    
   # additional packages to install
-    ADDITIONAL_PACKAGES="device-switch"
+    ADDITIONAL_PACKAGES="device-switch libmali generic-dsi"
+    ADDITIONAL_PACKAGES_32BIT="libmali"
 
   # additional Firmware to use ( )
   # Space separated list is supported,
@@ -81,7 +76,7 @@
   # for a list of additional drivers see packages/linux-drivers
   # Space separated list is supported,
   # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-    ADDITIONAL_DRIVERS="RTL8812AU RTL8814AU RTL8821AU RTL8821CU RTL88x2BU RTL8723DS"
+    ADDITIONAL_DRIVERS="RTL8812AU RTL8814AU RTL8821AU RTL8821CU RTL88x2BU RTL8723DS mali-bifrost"
 
   # debug tty path
     DEBUG_TTY="/dev/ttyFIQ0"

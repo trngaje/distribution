@@ -21,14 +21,10 @@
 
 PKG_NAME="mupen64plus-lr"
 PKG_VERSION="ab8134ac90a567581df6de4fc427dd67bfad1b17"
-PKG_REV="1"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/libretro/mupen64plus-libretro"
 PKG_URL="${PKG_SITE}/archive/${PKG_VERSION}.tar.gz"
 PKG_DEPENDS_TARGET="toolchain nasm:host"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="mupen64plus + RSP-HLE + GLideN64 + libretro"
 PKG_LONGDESC="mupen64plus + RSP-HLE + GLideN64 + libretro"
 PKG_TOOLCHAIN="make"
 PKG_BUILD_FLAGS="-lto"
@@ -47,9 +43,21 @@ pre_make_target() {
 }
 
 pre_configure_target() {
+export CFLAGS="${CFLAGS} -Wno-error=incompatible-pointer-types"
+
   case ${DEVICE} in
     RK3*)
       PKG_MAKE_OPTS_TARGET=" platform=${DEVICE}"
+      CFLAGS="${CFLAGS} -DLINUX -DEGL_API_FB"
+      CPPFLAGS="${CPPFLAGS} -DLINUX -DEGL_API_FB"
+    ;;
+    SD865)
+      PKG_MAKE_OPTS_TARGET=" platform=RK3588"
+      CFLAGS="${CFLAGS} -DLINUX -DEGL_API_FB"
+      CPPFLAGS="${CPPFLAGS} -DLINUX -DEGL_API_FB"
+    ;;
+    H700)
+      PKG_MAKE_OPTS_TARGET=" platform=RKH700"
       CFLAGS="${CFLAGS} -DLINUX -DEGL_API_FB"
       CPPFLAGS="${CPPFLAGS} -DLINUX -DEGL_API_FB"
     ;;

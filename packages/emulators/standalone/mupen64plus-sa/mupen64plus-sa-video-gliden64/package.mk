@@ -4,23 +4,23 @@
 # Copyright (C) 2023 JELOS (https://github.com/JustEnoughLinuxOS)
 
 PKG_NAME="mupen64plus-sa-video-gliden64"
-PKG_VERSION="a367b3eef3d7b173fb60587c4371de93f0c7c59f"
+PKG_VERSION="85bdd452d7090f78a0f76d02121fa59ad079b7f6"
 PKG_LICENSE="GPLv2"
 PKG_SITE="https://github.com/gonetz/GLideN64"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain boost libpng SDL2 SDL2_net zlib freetype nasm:host mupen64plus-sa-core"
-PKG_SHORTDESC="mupen64plus-video-gliden64"
+PKG_LONGDESC="mupen64plus-video-gliden64"
 PKG_LONGDESC="Mupen64Plus Standalone GLide64 Video Driver"
 PKG_TOOLCHAIN="manual"
 
 case ${DEVICE} in
-  AMD64|RK3588|S922X|RK3399|RK3566)
+  AMD64|RK3588|S922X|RK3399|RK3566*|SD865)
     PKG_DEPENDS_TARGET+=" mupen64plus-sa-simplecore"
   ;;
 esac
 
 case ${DEVICE} in
-  AMD64)
+  AMD64|SD865)
     PKG_DEPENDS_TARGET+=" ${OPENGL} glu libglvnd"
     export USE_GLES=0
   ;;

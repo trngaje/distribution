@@ -1,0 +1,15 @@
+diff --git a/src/usrintrf.c b/src/usrintrf.c
+index c69efa25..a3407ae8 100644
+--- a/src/usrintrf.c
++++ b/src/usrintrf.c
+@@ -30,7 +30,9 @@ To do:
+ #include "inputx.h"
+ #endif
+ 
+-
++//advance/osd/emu.h
++extern int get_autofire_delay(void);
++extern void set_autofire_delay(int delay);
+ 
+ /*************************************
+  *

@@ -8,6 +8,5 @@ PKG_SITE="https://github.com/ROCKNIX/rkbin"
 PKG_LONGDESC="rkbin: Rockchip Firmware and Tool Binaries"
 PKG_TOOLCHAIN="manual"
 PKG_PATCH_DIRS+="${DEVICE}*"
-
-PKG_VERSION="30691baa32ebc8a40f23e4cf5471b17256bd7b4d"
+PKG_VERSION="4b60b2aaede0e7d85d0ff36ebcb8b146b828943d"
 PKG_URL="${PKG_SITE}.git"

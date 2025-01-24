@@ -1,0 +1,43 @@
+diff --git a/extlibs/gameswf/gameswf/gameswf_render_handler_ogles.cpp b/extlibs/gameswf/gameswf/gameswf_render_handler_ogles.cpp
+index a9b046d..28fb812 100644
+--- a/extlibs/gameswf/gameswf/gameswf_render_handler_ogles.cpp
++++ b/extlibs/gameswf/gameswf/gameswf_render_handler_ogles.cpp
+@@ -1190,25 +1190,32 @@ void ffmpeg_resample( int bpp, int src_width, int src_height, int src_pitch,
+ 	if ( !ctx )
+ 		return;
+ 
+-	AVPicture my_pict;
+-	avpicture_alloc( &my_pict, fmt, dst_width, dst_height );
++	AVFrame *frame = av_frame_alloc();
++	frame->format = fmt;
++	frame->width  = dst_width;
++	frame->height = dst_height;
++	av_frame_get_buffer(frame, 32);
++	
++	//my_pict = av_frame_alloc();
++	//avpicture_alloc( &my_pict, fmt, dst_width, dst_height );
+ 
+ 	const uint8_t *src[4] = { src_data, NULL, NULL, NULL };
+ 	const int src_stride[4] = { src_pitch, 0, 0, 0 };
+ 
+ 	sws_scale( ctx, src, src_stride, 0, src_height,
+-		my_pict.data, my_pict.linesize );
++		frame->data, frame->linesize );
+ 
+ 	create_texture( ( bpp == 3 ) ? GL_RGB : GL_RGBA,
+-		dst_width, dst_height, my_pict.data[0], 0 );
++		dst_width, dst_height, frame->data[0], 0 );
+ 
+ #if GENERATE_MIPMAPS
+ 	// Build mipmaps.
+-	image::image_base im(my_pict.data[0], dst_width, dst_height, dst_width*bpp);
++	image::image_base im(frame->data[0], dst_width, dst_height, dst_width*bpp);
+ 	generate_mipmaps(fmt, fmt, bpp, &im);
+ #endif // GENERATE_MIPMAPS
+ 
+-	avpicture_free( &my_pict );
++	av_freep( &frame->data[0] );
++	av_frame_free(&frame);
+ 	sws_freeContext( ctx );
+ }
+ 

@@ -2,20 +2,13 @@
 # Copyright (C) 2019-present Team CoreELEC (https://coreelec.org)
 
 PKG_NAME="neocd_lr"
-PKG_VERSION="71ebe5044639b825e5bd1bd590fef3e918133b80"
-PKG_REV="1"
-PKG_ARCH="any"
+PKG_VERSION="f87ed9eb4a7bf1243f031044c4e2ae1a7bf7100b"
 PKG_LICENSE="LGPLv3.0"
 PKG_SITE="https://github.com/libretro/neocd_libretro"
 PKG_URL="${PKG_SITE}.git"
 PKG_DEPENDS_TARGET="toolchain flac libogg libvorbis"
-PKG_PRIORITY="optional"
-PKG_SECTION="libretro"
-PKG_SHORTDESC="Neo Geo CD emulator for libretro "
-PKG_LONGDESC="NeoCD-Libretro is a complete rewrite of NeoCD from scratch in modern C++11. It is designed with accuracy and portability in mind rather than being all about speed like the the older versions. The goal is also to document all I know about the platform in the source code so other emulator authors can make their own implementations."
-PKG_IS_ADDON="no"
+PKG_LONGDESC="Neo Geo CD emulator for libretro "
 PKG_TOOLCHAIN="make"
-PKG_AUTORECONF="no"
 GET_HANDLER_SUPPORT="git"
 
 make_target() {
